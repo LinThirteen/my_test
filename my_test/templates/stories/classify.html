@@ -1,0 +1,131 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>分类页面</title>
+{% endblock %}
+{% block link %}
+  {#<link rel="stylesheet" href="{% static 'css/base/Search-css.css' %} }">#}
+
+{% endblock %}
+{% block main %}
+  <main>
+    <div class="container">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fuild">
+          <div class="itemss" style="margin-left: 100px">
+            <ul class="nav navbar-nav" style="line-height: 52px">
+              <li style="left: -80px"><span style="font-size: 18px;color: #32A7B8">当前类别:</span><span></span></li>
+              {% if tag_id %}
+                <li style=""><span
+                        style="margin-left: -70px;float: left;left: -20px;font-size: 15px;color: red;font-weight: bold">{{ classify_name }}</span>
+                </li>
+              {% else %}
+                <li style=""><span
+                        style="margin-left: -60px;float: left;left: -20px;font-size: 15px;color: red;font-weight: bold">全部</span>
+                </li>
+
+              {% endif %}
+
+              <li style=""><span style="font-size: 25px;color: #32A7B8;float: left">|</span></li>
+              <li class="" id="tags"><a href="?tag_id=">全部</a></li>
+              {% for tag in classify_tags %}
+                <li><a href="?tag_id={{ tag.tag_id }}">{{ tag.tag_name }}</a></li>
+
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <div class="container" style="background-color:#fff;">
+
+
+      <div class="tab-content">
+
+        <div class="tab-pane fade in active" role="tabpanel" id="">
+          {% for stories in story_info %}
+            {% if stories.price %}
+              <div class="thumbnail col-md-3 col-xs-6">
+              <a href="{% url 'stories:buy_index' stories.id %}"><img src="{{ stories.image_url }}"
+                                                                      style="width: 100%;height: 305px"/></a>
+              <h5 class="h-title">{{ stories.title }}</h5>
+              <p class="price">
+                <div style="float: left">
+                  <span style="margin-left: 5px;">价格:</span>
+
+                  <span style="color: red;"><strong>{{ stories.price }}元</strong></span>
+                  {% else %}
+                  <div class="thumbnail col-md-3 col-xs-6">
+                    <a href="{% url 'stories:read' stories.id %}"><img src="{{ stories.image_url }}"
+                                                                       style="width: 100%;height: 305px"/></a>
+                    <h5 class="h-title">{{ stories.title }}</h5>
+              <p class="price">
+              <div style="float: left">
+              <span style="margin-left: 5px;">价格:</span>
+              <span style="color: red;"><strong>免费</strong></span>
+            {% endif %}
+          </div>
+          <div style="float: right">
+            <span style="font-size: 13px;">点击量:</span>
+            <del class="text-muted"
+                 style="text-decoration:none;font-size: 13px;margin-right: 5px;">{{ stories.clicks }}</del>
+          </div>
+          </p>
+
+          </div>
+          {% endfor %}
+        </div>
+
+
+      </div>
+      <br>
+      {#<div class="container" style="float: none">#}
+      <nav aria-label="Page navigation" style="height: 815px">
+
+        <ul class="pager" style="position: absolute;bottom:-45%;left: 40%">
+          {% if story_info.has_previous %}
+            <li><a href="?page={{ story_info.previous_page_number }}&tag_id={{ tag_id }}">上一页</a></li>
+          {% else %}
+            <li class="disabled"><a href="#">上一页</a></li>
+          {% endif %}
+          {% if paginator_data.left_has_more_page %}
+            <li class=""><a href="?page=1&tag_id={{ tag_id }}">1</a></li>
+            <li><a href="javascript:void(0);">...</a></li>
+          {% endif %}
+          {% for left_page in paginator_data.left_pages %}
+
+            <li><a href="?page={{ left_page }}&tag_id={{ tag_id }}">{{ left_page }}</a></li>
+          {% endfor %}
+          {#                              #当前页面#}
+          {% if paginator_data.current_page_num %}
+            <li class="active"><a href="?page={{ paginator_data.current_page_num }}&tag_id={{ tag_id }}"
+                                  style="background-color: #32A7B8">{{ paginator_data.current_page_num }}</a></li>
+          {% endif %}
+          {#                            右边的页面#}
+          {% for right_page in paginator_data.right_pages %}
+            <li><a href="?page={{ right_page }}&tag_id={{ tag_id }}">{{ right_page }}</a></li>
+          {% endfor %}
+          {% if paginator_data.right_has_more_page %}
+            <li><a href="javascript:void(0);">...</a></li>
+            <li class=""><a
+                    href="?page={{ paginator_data.total_page_num }}&tag_id={{ tag_id }}">{{ paginator_data.total_page_num }}</a>
+            </li>
+
+          {% endif %}
+          {% if story_info.has_next %}
+            <li><a href="?page={{ story_info.next_page_number }}&tag_id={{ tag_id }}">下一页</a></li>
+          {% else %}
+            <li class="disabled"><a href="javascript:void(0);">下一页</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <br>
+
+  </main>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'js/story/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'js/story/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+{#     <script src="{% static 'js/story/classify_story.js' %}"></script>#}
+{% endblock %}
+

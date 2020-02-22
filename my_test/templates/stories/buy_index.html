@@ -1,0 +1,245 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>购买页面</title>
+{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="../../static/css/base/buy_detail.css">
+{% endblock %}
+
+{% block main %}
+
+  <main>
+
+    <div id="main-t1" class="container" style="width: 87%">
+      <div class="col-md-9">
+
+        <div class="carousel car-mgn" id="carousels" style="background-color: #fff;height: 61%;top:-7px;border-radius: 10px">
+          <div class="search-box" style="width: 100%;height: 100%;border-radius: 10px;background-color: white">
+            <div style="height: 300px;width: 200px;background-color: white;float: left;border-radius: 10px;margin: 59px 59px 0px 59px ">
+              <img src="{{ story_detail.image_url }}" alt="" style="width: 100%;height: 100%;border-radius: 10px;border:2px solid #F0CAB6">
+            </div>
+             <div class="" style="height: 300px;width: 470px;background-color: white;float: right;border-radius: 10px;margin: 39px 59px 10px 0px ">
+                  <h3 class="h-title" id="book_title"  book_title="{{ story_detail.title }}">{{ story_detail.title }}</h3>
+              <h5 style="color: #1ab7ea">商家承诺：免费提供“运费险”，退货最高获赔25元运费理赔</h5>
+
+                <form action="" method="post" class="form-contains">
+                  {% csrf_token %}
+                <div style="background-color: #FFF2E8;margin-top: 20px;width:435px;height: 60px;"><h5 class="" style="line-height: 60px;color: #6C6C6C" >价格:
+
+                  <span style="font-size: 25px;color:red;" class="book_price" book_price="{{ story_detail.price }}">&nbsp;&nbsp;&nbsp;&nbsp;￥{{ story_detail.price }}&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                <span style="font-size: 12px;color: #6C6C6C;margin-left: 60px">受欢迎度:{{ story_detail.clicks }}</span></h5></div>
+               <div style="width: 250px;margin-top: 20px">
+              <span style="float: left;font-size: 13px;line-height: 40px;color: #6C6C6C">数量:&nbsp;&nbsp;&nbsp;&nbsp;</span>
+              <input style="width: 50px; height: 38px; border: 2px rgba(17,13,28,0.12); float: left;" type="button" value="-" onclick="reductionOf(this)" />
+
+              <input style="text-align: center; width: 50px; height: 38px; float: left;" type="text" class="number" value="1" onblur="checkNumber(this)" />
+
+              <input style="width: 50px; height: 38px; border: 2px rgba(17,13,28,0.12);" type="button" value="+" onclick="add(this)" />
+              </div>
+               <div class="form-item" style="margin-top: 20px">地址:
+                 {% if user.detail.address%}
+                 <input type="text" placeholder="请输入地址" class="address" style="padding-left:5px;margin-left: 5px;width: 395px;height: 30px;border: 2px solid rgba(17,13,28,0.12);border-radius: 5px;" value="{{ user.detail.address }}">
+               {% else %}
+                 <input type="text" placeholder="请输入地址" class="address" style="padding-left:5px;margin-left: 5px;width: 395px;height: 30px;border: 2px solid rgba(17,13,28,0.12);border-radius: 5px;" value="">
+
+                 {% endif %}
+               </div>
+                <div class="form-item"  style="margin-top: 25px;width: 435px">
+                  {% if request.user.mobile %}
+
+                  <input type="submit" value="立即购买" class="buy-btn" user_name="{{ request.user }}" user_mobile="{{ request.user.mobile }}" style="width: 100%;height: 40px;font-size: 18px;color:#E5511D;background-color: #FFE4D0; border-radius: 5px; border: 1px solid #F0CAB6;margin-top: -5px">
+                {% else %}
+                 <a href="{% url 'users:login' %}" style="cursor:pointer;"> <input type="" value="登录后购买" class="buy-btn "  style="text-align: center;width: 100%;height: 40px;font-size: 18px;color:#E5511D;background-color: #FFE4D0; border-radius: 5px; border: 1px solid #F0CAB6;margin-top: -5px;cursor:pointer;"></a>
+            {% endif %}
+                </div>
+
+
+                  </form>
+             </div>
+
+
+
+          </div>
+        </div>
+
+            <div class="comment-contain" style="background-color: white;margin-top:4px">
+             <div class="comment-pub clearfix" style="border-bottom:  1px solid #ddd;margin-bottom: 10px">
+        <div class="new-comment" style="margin: 20px 20px">
+         文章评论  {# (<span class="comment-count"></span>)#}
+        </div>
+
+        {% if user.is_authenticated %}
+          <div class="comment-control logged-comment" stories-id="{{ story_detail.id }}" style="">
+            <input type="text" placeholder="请填写评论" style="width: 90%;margin-left: 5%">
+            <button class="comment-btn" style="float: right;width:10%;height: 30px;background-color: #FFE4D0;margin-right: 20px;margin-bottom: 10px;margin-top: 20px;border: 1px solid #F0CAB6;border-radius: 5px;color:#E5511D">发表评论</button>
+          </div>
+        {% else %}
+          <div class="comment-control please-login-comment" stories-id="{{ story_detail.id }}" style="width: 90%;margin-left: 5%;">
+            <input type="text" placeholder="请登录后参加评论" readonly>
+            <button class="comment-btn"  style="float: right;width:10%;height: 30px;background-color: #FFE4D0;margin-right: 20px;margin-bottom: 10px;margin-top: 20px;border: 1px solid #F0CAB6;border-radius: 5px;color:#E5511D">发表评论</button>
+          </div>
+        {% endif %}
+
+
+             
+      </div>
+            <div class="comment-put" >
+             {% for one_comment in comments_list %}
+               {% if not one_comment.parent %}
+              <div  style="width: 90%;background-color:white;margin:10px auto;border-bottom: 1px solid #ddd;">
+              <img src="{{ one_comment.user_image_url }}" style="width: 50px;height: 50px;border-radius: 5px" alt=""><span style="margin-left: 2%">{{ one_comment.author }}:</span><span style="color:grey;font-size:11px ;float: right;margin-top: 17px">{{ one_comment.update_time }}</span>
+                <h5 style="margin-left: 12%;width: 85%">{{ one_comment.content }}</h5>
+
+               <div class="comment-list"  > <a href="javascript:" class="reply_a_frist" style="border-radius: 5px;margin-left: 94%;font-size: 14px;border: 2px solid #76b6f4;background-color: #76b6f4;color: white;text-decoration:none">&nbsp;回复&nbsp;</a>
+
+              <form class="reply_form left_float" comment-id="{{ one_comment.content_id }}"
+                  stories-id="{{ story_detail.id }}">
+              <textarea class="reply_input" style="height: 15%"></textarea>
+              <input type="button" value="回复" class="reply_btn right_float" style="font-size: 12px">
+              <input type="reset" name="" value="取消" class="reply_cancel right_float">
+            </form>
+               </div>
+                <div style="" class="">&nbsp;</div>
+
+              <div style="" class="son-comment" >
+
+                 {% for one_comments in comments_list %}
+
+                {% if one_comments.parent.content_id == one_comment.content_id %}
+                <div style="width: 80%;background-color: white;margin: auto">
+                <div><img src="{{ one_comments.user_image_url }}" style="margin-top: 7px;width: 35px;height: 35px;border-radius: 5px;" alt=""><span style="margin-left: 1.5%;margin-top: 10px">{{ one_comments.author }}&nbsp;&nbsp;回复：</span>
+              </div>
+                <h6 style="margin-left: 12%;width: 85%;margin-top: 0px;">{{ one_comments.content }}</h6>
+                </div>
+                {% endif %}
+              {% endfor %}
+                </div>
+            </div>
+
+               {% endif %}
+                  {% endfor %}
+            </div>
+
+
+
+
+    </div>
+        </div>
+
+
+      {% block right %}
+        <div class="col-md-3" style="top:-10px">
+          <div class="row clr-mgn">
+            <h3 class="text-center">今日推荐</h3>
+            <div class="carousel mgnlt">
+              <div id="carousel2333" class="carousel slide" data-interval="3000" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel2333" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel2333" data-slide-to="1"></li>
+                  <li data-target="#carousel2333" data-slide-to="2"></li>
+                </ol>
+               <div  class="carousel-inner" role="listbox" style="width: 100%">
+                                    <div class="item active">
+                                      {% if recommend_frist.price %}
+
+                                      <a href="{% url 'stories:buy_index' recommend_frist.id %}" target="_blank">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_frist.id %}">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                          {% if recommend_secoend.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_secoend.id %}" target="_blank">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_secoend.id %}">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                        {% if recommend_third.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_third.id %}" target="_blank">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                     <a href=" {% url 'stories:read' recommend_third.id %}">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                          {% endif %}
+                                    </div>
+                                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <div class="row clr-mgn">
+                    <h3 class="text-center">排行榜</h3>
+                    <ul class="list-group" id="more">
+                      {% for rank in ranking %}
+                        {% if rank.price %}
+                   <li class="list-group-item"><a class="a-noline" href="/buy_index/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+                        {% else %}
+                    <li class="list-group-item"><a class="a-noline" href="/read/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+                        {% endif %}
+                      {% endfor %}
+
+
+                    </ul>
+                </div>
+        </div>
+      {% endblock %}
+
+
+    </div>
+
+  <script type="text/javascript">
+
+  function reductionOf(obj) {
+                //减前判断
+		if ($(obj).next().val() == '') {
+      $(obj).next().val(1);
+
+
+    }
+    if ($(obj).next().val() <2) {
+
+       message.showError("不能再减了，在减就失去本宝贝啦(灬ꈍ ꈍ灬)！");
+       return
+    }
+      $(obj).next().val(parseInt($(obj).next().val()) - 1);//数值减
+      $(obj).next().val($(obj).next().val());//赋值给框
+
+
+	};
+        //加数量
+	function add(obj) {
+                //加前判断
+		if ($(obj).prev().val() == '') {
+			$(obj).prev().val(1);
+		}
+		$(obj).prev().val(parseInt($(obj).prev().val()) + 1);//数值加
+		$(obj).prev().val($(obj).prev().val());//赋值给框
+
+	};
+	//校验数字格式（只能输入正整数）
+	function checkNumber(obj) {
+		var reg = /^[1-9]\d*$/;
+		if(!reg.test($(obj).val()) || $(obj).val()==''){
+			$(obj).val(1);
+
+		}
+	}
+</script>
+
+  </main>
+{% endblock %}
+
+
+{% block script %}
+<script src="../../static/js/story/buy_index.js"></script>
+{% endblock %}

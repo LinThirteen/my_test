@@ -1,0 +1,152 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>作者页面</title>
+{% endblock %}
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" href="{% static "css/admin/base/bootstrap.min.css" %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/font-awesome.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/ionicons.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/AdminLTE.min.css' %}">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/skin-blue.min.css' %}">
+
+      <link rel="stylesheet" href="{% static 'css/base/sweetalert.css' %}">
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+{% block link %}
+    <link rel="stylesheet" href="{% static 'plugins/markdown_editor/css/editormd.css' %}">
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+      <div class="bs-example" data-example-id="panel-without-body-with-table">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+
+    <div class="panel-heading">作者界面（请作者选择好章节后在点击编辑）<button class="btn btn-xs " style="float: right;margin-right: 4.5%;width: 80px;background:orange;color: white">增加小说</button></div>
+
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>书名</th>
+            <th>价格</th>
+            <th>点击量</th>
+            <th>章节</th>
+            <th style="width: 15%;">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for one_book in write_book %}
+          <tr>
+            <th style="color:#96d196">{{ one_book.title }}</th>
+            {% if one_book.price == 0 %}
+              <td>免费</td>
+            {% else %}
+              <td>{{ one_book.price }}元</td>
+
+            {% endif %}
+            <td>{{ one_book.clicks }}</td>
+            <td> <select name="news-category" id="news-category" class="form-control">
+{#               {% for one_c in one_book %}#}
+{#                <option value="{{ one_c.id }}">{{ one_c.chapter }}&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;{{ one_c.chapter_title }}&nbsp;&nbsp;--</option>#}
+{#              {% endfor %}#}
+            </select>
+            </td>
+             <td style="width: 20%;"><button class="btn btn-xs " style="width: 60px;background: #fcf8e3;color: #8a6d3b">编辑</button>
+               <button class="btn btn-xs  btn-success " >增加章节</button>
+              <button class="btn btn-xs btn-info" value="" style="width: 60px">申请删除</button></td>
+          </tr>
+   {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+    </div>
+
+    <div class="container"  style="background-color: white">
+
+       <div class="form-group">
+          <label for="news-content" style="margin: 20px 20px">文章内容</label>
+          {% if news %}
+            <div id="news-content">
+                 <textarea name="content" id="content">{{ news.content|safe }}</textarea>
+            </div>
+          {% else %}
+            <div id="news-content">
+                <textarea name="content" style="display:none;" id="content"></textarea>
+            </div>
+          {% endif %}
+        </div>
+
+      <div class="box-footer">
+          {% if news %}
+            <a href="javascript:void (0);" class="btn btn-primary pull-right" id="btn-pub-news" data-news-id="{{ news.id }}" style="margin: 20px 20px">更新文章 </a>
+          {% else %}
+           <a href="javascript:void (0);" class="btn btn-primary pull-right" id="btn-pub-news" style="margin: 20px 20px">发布文章 </a>
+          {% endif %}
+
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'plugins/markdown_editor/editormd.js' %}"></script>
+  <script>
+    let testEditor;
+    $(function () {
+      $.get("{% static 'plugins/markdown_editor/examples/test.md' %}", function (md) {
+        testEditor = editormd("news-content", {
+          width: "98%",
+          height: 730,
+          path: "{% static 'plugins/markdown_editor/lib/' %}",
+          markdown: md,
+          codeFold: true,
+          saveHTMLToTextarea: true,
+          searchReplace: true,
+          htmlDecode: "style,script,iframe|on*",
+          emoji: true,
+          taskList: true,
+          tocm: true,         			// Using [TOCM]
+          tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+          flowChart: true,             // 开启流程图支持，默认关闭
+          sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+          imageUpload: true,
+          imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+          imageUploadURL: "{% url 'admin:upload_image' %}",
+{#          onload: function () {#}
+{#            console.log('onload', this);#}
+{##}
+{#          },#}
+          /**设置主题颜色 把这些注释去掉主题就是黑色的了*/
+{#          editorTheme: "pastel-on-dark",#}
+{#          theme: "dark",#}
+{#          previewTheme: "dark"#}
+        });
+      });
+    });
+
+  </script>
+   <script src="{% static 'js/story/wangEditor.min.js' %}"></script>
+  {# 导入七牛云需要的4个js文件 #}
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/moxie.min.js"></script>
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/plupload.dev.js"></script>
+  <script src="https://cdn.bootcss.com/qiniu-js/1.0.17.1/qiniu.min.js"></script>
+	{# 这3个js文件有依赖关系，fqiniu.js需要放在后面 #}
+  <script src="{% static 'js/admin/base/fqiniu.js' %}"></script>
+
+  <script src="{% static 'js/story/stories_put.js' %}"></script>
+{% endblock %}

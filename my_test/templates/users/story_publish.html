@@ -1,0 +1,190 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>作者页面</title>
+{% endblock %}
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="{% static "css/admin/base/bootstrap.min.css" %}">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/font-awesome.min.css' %}">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/ionicons.min.css' %}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/AdminLTE.min.css' %}">
+  <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+        page. However, you can choose any other skin. Make sure you
+        apply the skin class to the body tag so the changes take effect. -->
+  <link rel="stylesheet" href="{% static 'css/admin/base/skin-blue.min.css' %}">
+
+      <link rel="stylesheet" href="{% static 'css/base/sweetalert.css' %}">
+  <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.ico' %}"/>
+{% block link %}
+    <link rel="stylesheet" href="{% static 'plugins/markdown_editor/css/editormd.css' %}">
+
+{% endblock %}
+
+{% block main %}
+
+  <div class="container" style="background-color: white">
+
+    <div class="box-body" style="margin-top: 2%;margin-bottom: 4%">
+      <div class="form-group">
+        <label for="news-title">小说标题:</label>
+        {% if stories %}
+          <input type="text" class="form-control" id="story-title" name="news-title" placeholder="请输入小说标题"
+                 value="{{ stories.title }}">
+        {% else %}
+             <input type="text" class="form-control" id="story-title" name="news-title" placeholder="请输入小说标题"
+                 value="">
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="news-title">价格:</label>
+        {% if stories %}
+          <input type="text" class="form-control" id="story-price" name="news-title" placeholder="请输入小说价格(免费则输入0)"
+                 value="{{ stories.price }}">
+        {% else %}
+          <input type="text" class="form-control" id="story-price" name="news-title" placeholder="请输入小说价格(免费则输入0)"
+                 value="">
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="news-desc">小说摘要:</label>
+        {% if stories %}
+          <textarea name="news-desc" id="story-desc" placeholder="请输入小说描述(100字以内)" class="form-control"
+                    style="height: 8rem; resize: none;">{{ stories.digest }}</textarea>
+        {% else %}
+          <textarea name="news-desc" id="story-desc" placeholder="请输入小说描述(100字以内)" class="form-control"
+                    style="height: 8rem; resize: none;"></textarea>
+
+        {% endif %}
+      </div>
+      <div class="form-group">
+        <label for="news-category">小说分类:</label>
+        <select name="news-category" id="choice_chapter" class="form-control">
+          <option value="0">-- 请选择小说分类 --</option>
+          {% for one_c in tag %}
+            {% if stories and one_c == stories.tag %}
+              <option value="{{ one_c.id }}" selected>{{ one_c.name }}</option>
+            {% else %}
+              <option value="{{ one_c.id }}">{{ one_c.name }}</option>
+            {% endif %}              {% endfor %}
+        </select>
+
+
+      </div>
+    {% if not stories %}
+       <div class="form-group">
+          <label for="news-category">小说章节:</label> <label for="news-category" style="margin-left: 45.5%">章节标题:</label>
+          <input type="text" class="form-control" id="chapter-number" name="chapter-number" placeholder="请输入小说章节"
+                   value="第一章"  style="width: 49%;" disabled>
+         <input type="text" class="form-control" id="chapter-title" name="chapter-title" placeholder="请输入小说章节标题"
+                   value=""  style="width: 49%;float: right;margin-top: -3%">
+</div>
+
+    {% endif %}
+      <div class="form-group" id="container">
+        <label for="news-thumbnail-url">小说缩略图:</label>
+        <div class="input-group">
+            {% if stories %}
+          <input type="text" class="form-control" id="news-thumbnail-url" name="news-thumbnail-url"
+                 placeholder="请上传图片或输入小说缩略图地址" value="{{ stories.image_url }}">
+{% else %}
+
+                    <input type="text" class="form-control" id="news-thumbnail-url" name="news-thumbnail-url"
+                 placeholder="请上传图片或输入小说缩略图地址" value="{{ stories.image_url }}">
+
+{% endif %}
+          <div class="input-group-btn">
+
+            <button class="btn btn-info" id="upload-btn">上传至七牛云</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="progress" style="display: none">
+          <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0;">0%</div>
+        </div>
+      </div>
+    {% if not stories %}
+    <div class="form-group">
+          <label for="news-content">文章内容</label>
+
+            <div id="news-content">
+                 <textarea name="content" id="story_content" ></textarea>
+            </div>
+
+        </div>
+       {% endif %}
+
+    </div>
+  </div>
+
+
+  <div class="container" style="background-color: white">
+
+    <div class="box-footer" style="margin-bottom: 5%;">
+     <a href="{% url 'users:write' %}" style="width: 10%" class="btn btn-primary pull-left" >返回</a>
+      {% if stories %}
+        <a href="javascript:void (0);" style="margin-left: 45%;width: 10%" class="btn btn-primary pull-right" id="btn-pub-stories"
+           data-story-id="{{ stories.id }}">更新小说</a>
+      {% else %}
+        <a href="javascript:void (0);" style="margin-left: 45%;width: 10%" class="btn btn-primary pull-right" id="btn-pub-stories"
+           data-story-id="">发布小说 </a>
+      {% endif %}
+    </div>
+
+  </div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'plugins/markdown_editor/editormd.js' %}"></script>
+  <script>
+    let testEditor;
+    $(function () {
+      $.get("{% static 'plugins/markdown_editor/examples/test.md' %}", function (md) {
+        testEditor = editormd("news-content", {
+          width: "100%",
+          height: 730,
+          path: "{% static 'plugins/markdown_editor/lib/' %}",
+          markdown: md,
+          codeFold: true,
+          saveHTMLToTextarea: true,
+          searchReplace: true,
+          htmlDecode: "style,script,iframe|on*",
+          emoji: true,
+          taskList: true,
+          tocm: true,         			// Using [TOCM]
+          tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+          flowChart: true,             // 开启流程图支持，默认关闭
+          sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+          imageUpload: true,
+          imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+          imageUploadURL: "{% url 'admin:upload_image' %}",
+{#          onload: function () {#}
+{#            console.log('onload', this);#}
+{##}
+{#          },#}
+          /**设置主题颜色 把这些注释去掉主题就是黑色的了*/
+{#          editorTheme: "pastel-on-dark",#}
+{#          theme: "dark",#}
+{#          previewTheme: "dark"#}
+        });
+      });
+    });
+
+  </script>
+  {# 导入七牛云需要的4个js文件 #}
+     <script src="{% static 'js/story/wangEditor.min.js' %}"></script>
+
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/moxie.min.js"></script>
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/plupload.dev.js"></script>
+  <script src="https://cdn.bootcss.com/qiniu-js/1.0.17.1/qiniu.min.js"></script>
+  {# 这3个js文件有依赖关系，fqiniu.js需要放在后面 #}
+  <script src="{% static 'js/admin/base/fqiniu.js' %}"></script>
+  <script src="{% static 'js/user/story_publish.js' %}"></script>
+  <script src="{% static 'js/base/sweetalert.min.js' %}"></script>
+
+{% endblock %}

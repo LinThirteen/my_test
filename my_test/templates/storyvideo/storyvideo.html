@@ -1,0 +1,55 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+<title>视频页面</title>
+{% endblock %}
+{% block link %}
+{#<link rel="stylesheet" href="{% static 'css/base/Search-css.css' %} }">#}
+
+{% endblock  %}
+{% block main %}
+   <main>
+        <div class="container">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fuild" style="border: 2px solid  #32a7b8;border-radius: 5px ">
+                  <img src="{% static 'images/视频&音乐.jpg' %}" style="width: 100%;height: 300px;border: 2px solid  #32a7b8;border-radius: 10px">
+{#                        <ul class="nav navbar-nav" style="line-height: 52px;width: 100%;height: 300px;background-color: coral ">#}
+{#                          #}
+{#                        </ul>#}
+                </div>
+            </nav>
+        </div>
+        <div class="container" style="background-color:#f4efea;border: 1px solid #f4efea;border-radius: 7px">
+
+
+
+            <div class="tab-content" style="background-color:#f4efea">
+
+                <div class="tab-content1" role="tabpanel" id="" style="width: 1140px;background-color:#f4efea">
+                  {% for video in story_video %}
+                  <div style="width:270px;height: 310px;background-color: #f4efea;float: left;display: inline;margin: 7px;border: 2px solid #5bc0de ;border-radius: 10px">
+                    <div class=""><a href="{% url 'storyvideo:video_detail'  video.id %}"  target="_blank"><img src="{{ video.cover_url }}"  style="width: 98%;height: 237px;margin: 2px;border-radius: 10px"/></a></div>
+                    <div style="color: #4085af;width: 256px;height: 50px;background:#f4efea;margin:5px;border-radius: 10px;text-align: center;line-height: 50px"><p>{{ video.title }}</p><h6 style="margin-top: -20px;">时长:{{ video.duration }}分钟</h6></div>
+                  </div>
+                  {% endfor %}
+
+            </div>
+
+
+               <nav aria-label="Page navigation">
+                            <ul class="pager">
+
+                            </ul>
+                        </nav><br>
+                </div>
+
+
+            </div>
+
+    </main>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'js/story/bootstrap-datepicker.min.js' %}"></script>
+ <script src="{% static 'js/story/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+{#   <script src="{% static 'js/doc/docDownload.js' %}"></script>#}
+{% endblock %}

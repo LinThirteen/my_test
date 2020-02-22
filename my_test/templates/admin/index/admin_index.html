@@ -1,0 +1,373 @@
+{% extends 'admin/base/base.html' %}
+
+
+{% block title %}
+  首页
+{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/admin/base/svg.css' %}">
+
+{% endblock %}
+{% block content_header %}
+ {{ user.username }}
+{% endblock %}
+
+{% block join_time %}
+ <small>加入时间:{{ join_time }}</small>
+{% endblock %}
+
+
+{% block header_option_desc %}
+您好
+{% endblock %}
+
+{% block content %}
+ <div style="height:400px;width:100% ">
+ <div id="container" style="min-width:400px;height:400px">
+
+ </div>
+
+<script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
+    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+</div>
+<script language="JavaScript" type="text/javascript">
+var chart = Highcharts.chart('container', {
+  chart: {
+    type: 'column'
+  },
+  title: {
+    text: '优克里全国各城市用户注册量'
+  },
+  subtitle: {
+    text: '数据来源于数据库并实时更新'
+  },
+  xAxis: {
+    type: 'category',
+    labels: {
+      rotation: -45  // 设置轴标签旋转角度
+    }
+  },
+  yAxis: {
+    min: 0,
+    title: {
+      text: '人口数量'
+    }
+  },
+  legend: {
+    enabled: false
+  },
+  tooltip: {
+    pointFormat: '人口总量: <b>{point.y}0</b>'
+  },
+  series: [{
+    name: '总人口',
+    data: [
+
+      {% for city in users_list %}
+        ['{{ city.detail__address }}', {{ city.counts }}],
+      {% endfor %}
+
+    ],
+    dataLabels: {
+      enabled: true,
+      rotation: -90,
+      color: '#FFFFFF',
+      align: 'right',
+      format: '{point.y:.1f}', // :.1f 为保留 1 位小数
+      y: 10
+    }
+  }]
+});
+
+</script>
+
+
+
+
+
+<div id="containers" style="min-width: 310px; height: 500px; margin: 0 auto">
+  <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+{#  <script src="{% static 'js/admin/base/drilldown.js' %}"></script>#}
+{#  <script src="{% static 'js/admin/base/drilldown.js' %}"></script>#}
+   <script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>
+  <script src="https://code.highcharts.com.cn/highcharts/modules/drilldown.js"></script>
+  <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+{#<script src="http://cdn.highcharts.com.cn/highcharts/highcharts.js"></script>#}
+{#    <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>#}
+{#    <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>#}
+
+</div>
+  <script language="JavaScript">
+    Highcharts.chart('containers', {
+      chart: {
+        type: 'column'
+      },
+      title: {
+        text: '优克里各类小说的总点击量'
+      },
+      subtitle: {
+        text: '数据来源于数据库并实时更新'
+      },
+      xAxis: {
+        type: 'category'
+      },
+      yAxis: {
+        title: {
+          text: '小说点击量'
+        }
+      },
+      legend: {
+        enabled: false
+      },
+      plotOptions: {
+        series: {
+          borderWidth: 0,
+          dataLabels: {
+            enabled: true,
+            format: '{point.y}次'
+          }
+        }
+      },
+      tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}次</b><br/>'
+      },
+      series: [{
+        colorByPoint: true,
+  data: [
+          {% for tag in tags_list %}
+          { 'name': '{{ tag.name }}',
+          'y': {{ tag.clicks }},
+          'drilldown': '{{ tag.name }}'},
+          {% endfor %}
+        ]
+      }],
+
+
+    drilldown: {
+		series: [
+
+		     {% for one_list in group_list %}
+          {
+            name: "{{ one_list.name }}",
+             id: "{{ one_list.id }}",
+          data: {{ one_list.data|safe }}
+          },
+          {% endfor %}
+    ]
+
+      {#  [#}
+		{#    {#}
+		{#	name: '玄幻小说',#}
+		{#	id: '玄幻小说',#}
+		{#	data: [#}
+		{#		[#}
+      {##}
+		{#			'v11.0',       //横坐标#}
+		{#			24.13          //数据#}
+		{#		],#}
+		{#		[#}
+      {##}
+		{#			'v8.0',#}
+		{#			17.2#}
+		{#		],#}
+		{#		[#}
+      {##}
+		{#			'v9.0',#}
+		{#			8.11#}
+		{#		],#}
+		{#		[#}
+      {##}
+		{#			'v10.0',#}
+		{#			5.33#}
+		{#		],#}
+		{#		[#}
+      {##}
+		{#			'v6.0',#}
+		{#			1.06#}
+		{#		],#}
+		{#		[#}
+        {##}
+		{#			'v7.0',#}
+		{#			0.5#}
+		{#		]#}
+		{#	]#}
+		{# },#}
+      {##}
+      {##}
+      {##}
+      {#{#}
+		{#	name: '都市小说',#}
+		{#	id: '都市小说',#}
+		{#	data: [#}
+		{#		[#}
+		{#			'v40.0',#}
+		{#			5#}
+		{#		],#}
+		{#		[#}
+		{#			'v41.0',#}
+		{#			4.32#}
+		{#		],#}
+		{#		[#}
+		{#			'v42.0',#}
+		{#			3.68#}
+		{#		],#}
+		{#		[#}
+		{#			'v39.0',#}
+		{#			2.96#}
+		{#		],#}
+		{#		[#}
+		{#			'v36.0',#}
+		{#			2.53#}
+		{#		],#}
+		{#		[#}
+		{#			'v43.0',#}
+		{#			1.45#}
+		{#		],#}
+		{#		[#}
+		{#			'v31.0',#}
+		{#			1.24#}
+		{#		],#}
+		{#		[#}
+		{#			'v35.0',#}
+		{#			0.85#}
+		{#		],#}
+		{#		[#}
+		{#			'v38.0',#}
+		{#			0.6#}
+		{#		],#}
+		{#		[#}
+		{#			'v32.0',#}
+		{#			0.55#}
+		{#		],#}
+		{#		[#}
+		{#			'v37.0',#}
+		{#			0.38#}
+		{#		],#}
+		{#		[#}
+		{#			'v33.0',#}
+		{#			0.19#}
+		{#		],#}
+		{#		[#}
+		{#			'v34.0',#}
+		{#			0.14#}
+		{#		],#}
+		{#		[#}
+		{#			'v30.0',#}
+		{#			0.14#}
+		{#		]#}
+		{#	]#}
+		{# },#}
+      {#{#}
+		{#	name: 'Firefox',#}
+		{#	id: 'Firefox',#}
+		{#	data: [#}
+		{#		[#}
+		{#			'v35',#}
+		{#			2.76#}
+		{#		],#}
+		{#		[#}
+		{#			'v36',#}
+		{#			2.32#}
+		{#		],#}
+		{#		[#}
+		{#			'v37',#}
+		{#			2.31#}
+		{#		],#}
+		{#		[#}
+		{#			'v34',#}
+		{#			1.27#}
+		{#		],#}
+		{#		[#}
+		{#			'v38',#}
+		{#			1.02#}
+		{#		],#}
+		{#		[#}
+		{#			'v31',#}
+		{#			0.33#}
+		{#		],#}
+		{#		[#}
+		{#			'v33',#}
+		{#			0.22#}
+		{#		],#}
+		{#		[#}
+		{#			'v32',#}
+		{#			0.15#}
+		{#		]#}
+		{#	]#}
+		{# },#}
+      {#{#}
+		{#	name: 'Safari',#}
+		{#	id: 'Safari',#}
+		{#	data: [#}
+		{#		[#}
+		{#			'v8.0',#}
+		{#			2.56#}
+		{#		],#}
+		{#		[#}
+		{#			'v7.1',#}
+		{#			0.77#}
+		{#		],#}
+		{#		[#}
+		{#			'v5.1',#}
+		{#			0.42#}
+		{#		],#}
+		{#		[#}
+		{#			'v5.0',#}
+		{#			0.3#}
+		{#		],#}
+		{#		[#}
+		{#			'v6.1',#}
+		{#			0.29#}
+		{#		],#}
+		{#		[#}
+		{#			'v7.0',#}
+		{#			0.26#}
+		{#		],#}
+		{#		[#}
+		{#			'v6.2',#}
+		{#			0.17#}
+		{#		]#}
+		{#	]#}
+		{# },#}
+      {#{#}
+		{#	name: 'Opera',#}
+		{#	id: 'Opera',#}
+		{#	data: [#}
+		{#		[#}
+		{#			'v12.x',#}
+		{#			0.34#}
+		{#		],#}
+		{#		[#}
+		{#			'v28',#}
+		{#			0.24#}
+		{#		],#}
+		{#		[#}
+		{#			'v27',#}
+		{#			0.17#}
+		{#		],#}
+		{#		[#}
+		{#			'v29',#}
+		{#			0.16#}
+		{#		]#}
+		{#	]#}
+		{# }#}
+      {##}
+      {##}
+      {##}
+		{#]#}
+	}
+});
+
+
+  </script>
+
+ </div>
+
+{% endblock %}
+{% block script %}
+     <script src="{% static 'js/admin/base/svg.js' %}"></script>
+
+{% endblock %}

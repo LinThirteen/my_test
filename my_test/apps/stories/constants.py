@@ -1,0 +1,23 @@
+#获取轮播图数
+SHOW_BANNER_COUNT = 3
+
+#获取主页分类
+SHOW_TAGS_COUNT = 4
+
+#获取今日推荐
+SHOW_RECOEMMEND_COUNT = 3
+
+#排行榜
+SHOW_RANKING_COUNT = 9
+
+#大神作家
+
+SHOW_WRITE_COUNT = 6
+
+#每页8条推荐小说
+
+SHOW_RECOEMMEND_STORY_COUNT = 8
+
+
+#分类小说每页8条数据
+CLASSIFY_STORY_COUNT = 8

@@ -1,0 +1,118 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>下载页面</title>
+{% endblock %}
+{% block link %}
+  {#<link rel="stylesheet" href="{% static 'css/base/Search-css.css' %} }">#}
+  <link rel="stylesheet" href="../../static/css/base/shopping_cart.css">
+
+{% endblock %}
+<style>
+
+
+  #saw{
+
+      margin: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+
+}
+</style>
+{% block main %}
+  <main>
+    <div class="container">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fuild" style="border: 2px solid  #32a7b8;border-radius: 5px ">
+          <img src="{% static 'images/buy_index.jpg' %}"
+               style="width: 100%;height: 300px;border: 2px solid  #32a7b8;border-radius: 10px">
+        </div>
+      </nav>
+    </div>
+    <div class="container" style="background-color:#f4efea;border: 1px solid #f4efea;border-radius: 7px">
+      <table class="table">
+              <thead>
+                <tr >
+
+                  <th style="text-align: center">商品名字</th>
+                  <th style="text-align: center">价格</th>
+                  <th style="text-align: center">数量</th>
+                  <th style="text-align: center">查看物流</th>
+                  <th style="text-align: center">购买时间</th>
+                  <th style="text-align: center">状态</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for order in order_form %}
+               <tr class="success">
+                  <td style="text-align: center">《{{ order.order_information }}》</td>
+                  <td style="text-align: center">{{ order.book_price }}</td>
+                  <td style="text-align: center">{{ order.number }}</td>
+                  <td style="text-align: center"><a href="javascript:"  class="reply_a_frist btn btn-xs btn-info" id="saw" data-toggle="modal">查看</a>
+                  {% if order.status %}
+                    <form class="reply_form " >
+                              <div class="well">
+                              商品已发货，正在等待揽收！
+                            </div>
+                                        </form>
+                     {% else %}
+                     <form class="reply_form " >
+                              <div class="well">
+                              商家已接受订单，正在安排发货！
+                            </div>
+                                        </form>
+                    {% endif %}
+                  </td>
+
+                  <td style="text-align: center">{{ order.create_time }}</td>
+                 {% if order.status %}
+                   <td style="text-align: center"><a href="" class="btn btn-xs btn-success" disabled>已发货</a></td>
+               {% else %}
+                   <td style="text-align: center"><a href="" class="btn btn-xs btn-warning" disabled>待发货</a></td>
+               {% endif %}
+                </tr>
+              {% endfor %}
+
+
+              </tbody>
+            </table>
+
+<script type="text/javascript">
+   $('.container').delegate('a,input', 'click', function () {
+
+    let sClassValue = $(this).prop('class');
+
+    if (sClassValue.indexOf('reply_a_frist') >= 0) {
+      $(this).next().toggle();
+
+    }
+
+    if (sClassValue.indexOf('reply_cancel') >= 0) {
+      $(this).parent().toggle();
+
+    }
+
+  });
+</script>
+
+    </div>
+  </main>
+
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/story/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'js/story/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+
+  {# 导入七牛云需要的4个js文件 #}
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/moxie.min.js"></script>
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/plupload.dev.js"></script>
+  <script src="https://cdn.bootcss.com/qiniu-js/1.0.17.1/qiniu.min.js"></script>
+{#  <script src="{% static 'js/user/detail.js' %}"></script>#}
+  <script src="{% static 'js/admin/base/fqiniu.js' %}"></script>
+
+{% endblock %}

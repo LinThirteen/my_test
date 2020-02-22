@@ -1,0 +1,150 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>作者页面</title>
+{% endblock %}
+
+{% block link %}
+
+ <link rel="stylesheet" href="{% static 'css/base/sweetalert.css' %}">
+{% endblock %}
+
+{% block main %}
+
+    <div class="container">
+      <div class="bs-example" data-example-id="panel-without-body-with-table">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+
+    <div class="panel-heading">作者界面<a href="{% url 'users:story_publish' %}"><button class="btn btn-xs " style="float: right;margin-right: 4.5%;width: 80px;background:orange;color: white">增加小说</button></a></div>
+
+
+      <!-- Table -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>书名</th>
+            <th>价格</th>
+            <th>点击量</th>
+            <th>创建时间</th>
+            <th style="width: 15%;">操作</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for one_book in write_book %}
+          <tr>
+          {% if one_book.price == 0 %}
+            <td style="color:#96d196"><a href="{% url 'stories:read' one_book.id %}" style="text-decoration: none">{{ one_book.title }}</a></td>
+          {% else %}
+           <td style="color:#96d196">  <a href="{% url 'stories:buy_index' one_book.id %}"  style="text-decoration: none">{{ one_book.title }}</a></td>
+          {% endif %}
+            {% if one_book.price == 0 %}
+              <td>免费</td>
+            {% else %}
+              <td>{{ one_book.price }}元</td>
+
+            {% endif %}
+            <td>{{ one_book.clicks }}</td>
+           <td>{{ one_book.create_time|date }}</td>
+
+            <td style="width: 25%;">
+               <a href="{% url 'users:story_change' one_book.id  %}"><button class="btn btn-xs btn-secondary" style="width: 60px;">修改小说</button></a>
+              <a href="{% url 'users:write_edit' one_book.id  %}"><button class="btn btn-xs btn-info" style="width: 60px;">编辑章节</button></a>
+              <a href="{% url 'users:chapter_add' one_book.id  %}"><button class="btn btn-xs  btn-success " >增加章节</button></a>
+              <button class="btn btn-xs btn-warning btn-del" id="btn-del" value="" data-stories-id="{{ one_book.id }}" style="width: 60px">删除</button>
+            </td>
+          </tr>
+   {% endfor %}
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+    </div>
+
+    <div class="container"  style="background-color: white">
+
+       <div class="containerss" id="containerss" >
+
+
+
+
+        </div>
+
+  <script src="https://code.highcharts.com.cn/highcharts/highcharts.js"></script>
+  <script src="https://code.highcharts.com.cn/highcharts/modules/exporting.js"></script>
+  <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+
+
+</div>
+
+  <script language="JavaScript">
+var chart = Highcharts.chart('containerss', {
+	chart: {
+		type: 'column'
+	},
+	title: {
+		text: '{{ request.user }}的小说数据统计'
+	},
+	subtitle: {
+		text: '该数据来自数据库实时更新'
+	},
+	xAxis: {
+		categories:[{% for i in title_name %}"{{ i }}",{% endfor %}]},
+	yAxis: {
+		labels: {
+			x: -15
+		},
+		title: {
+			text: '阅读量'
+		}
+	},
+	series: [{
+		name: '阅读次数',
+		data: {{ cliks }}
+	}],
+	responsive: {
+		rules: [{
+			condition: {
+				maxWidth: 500
+			},
+			// Make the labels less space demanding on mobile
+			chartOptions: {
+				yAxis: {
+					labels: {
+						align: 'left',
+						x: 0,
+						y: -2
+					},
+					title: {
+						text: ''
+					}
+				}
+			}
+		}]
+	}
+});
+
+
+
+</script>
+
+{% endblock %}
+
+{% block script %}
+
+
+   <script src="{% static 'js/story/wangEditor.min.js' %}"></script>
+  {# 导入七牛云需要的4个js文件 #}
+ <script src="{% static 'js/admin/stories/bootstrap-datepicker.min.js' %}"></script>
+ <script src="{% static 'js/admin/stories/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+  <script src="{% static 'js/base/fsweetalert.js'%}"></script>
+
+  <script src="{% static 'js/user/write_view.js' %}"></script>
+<script src="{% static 'js/base/sweetalert.min.js'%}"></script>
+
+
+
+
+
+{% endblock %}

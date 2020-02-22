@@ -1,0 +1,131 @@
+{% extends 'admin/base/base.html' %}
+{% block title %}
+  所有用户管理页
+{% endblock %}
+
+{% block content_header %}
+  所有用户管理
+{% endblock %}
+
+{% block header_option_desc %}
+
+{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12 col-xs-12 col-sm-12">
+      <div class="box box-primary">
+           <div class="box header" style="padding-bottom: 20px">
+     <form action="" class="form-inline" style="text-align: center;margin-top: 20px" >
+       <div class="form-group ml20 mt20" >
+
+         {% if author_name %}
+           <input type="text" class="form-control" placeholder="请输入用户名" id="author" name="author_name"
+                  value="{{ author_name }}" style="text-align: center">
+         {% else %}
+           <input type="text" class="form-control" placeholder="请输入用户名" id="author" name="author_name" style="text-align: center">
+         {% endif %}
+       </div>
+
+       <div class="form-group ml20 mt20">
+         <button class="btn btn-primary" style="width: 112px;">查询</button>
+       </div>
+     </form>
+   </div>
+        <div class="box-body">
+          <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+              <th>用户名称</th>
+              <th>用户电话</th>
+              <th>VIP</th>
+              <th>用户备注</th>
+              <th>操作</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for one_users in users_info %}
+              <tr data-id="{{ one_users.id }}" data-name="{{ one_users.username }}" data-remark="{{ one_users.remark }}">
+                <td>{{ one_users.username }}</td>
+                <td>{{ one_users.mobile }}</td>
+                {% if one_users.vip  %}
+                <td>是</td>
+                {% else %}
+                <td>否</td>
+                {% endif %}
+                <td>{{ one_users.remark}}</td>
+
+
+                <td>
+                  <button class="btn btn-xs btn-warning btn-edit">修改备注</button>
+                   {% if one_users.vip  %}
+                   <button class="btn btn-xs btn-google btn-vip" value="normal" style="width: 60px">vip</button>
+                    {% else %}
+                   <button class="btn btn-xs btn-primary btn-vip" value="vip" style="width: 60px">normal</button>
+                   {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+
+
+            </tbody>
+          </table>
+        </div>
+       <div class="box-footer" >
+
+     <nav class="pull-right">
+       <!-- 分页 -->
+       <ul class="pagination">
+         <!-- 上一页 -->
+         {% if stories_info.has_previous %}
+            <li><a href="?page={{ stories_info.previous_page_number }}">上一页</a></li>
+           {% else %}
+           <li class="disabled"><a href="javascript:void(0);">上一页</a></li>
+         {% endif %}
+
+          {% if left_has_more_page %}
+            <li><a href="?page=1">1</a></li>
+            <li><a href="javascript:void(0);">...</a></li>
+          {% endif %}
+          <!-- 左边的页码 -->
+          {% for left_page in left_pages %}
+            <li><a href="?page={{ left_page }}">{{ left_page }}</a></li>
+          {% endfor %}
+
+          <!-- 当前页面 -->
+          {% if current_page_num %}
+            <li class="active"><a href="?page={{ current_page_num }}">{{ current_page_num }}</a></li>
+          {% endif %}
+          <!-- 右边的页面 -->
+          {% for right_page in right_pages %}
+              <li><a href="?page={{ right_page }}">{{ right_page }}</a></li>
+          {% endfor %}
+
+         {% if right_has_more_page %}
+          <li><a href="javascript:void(0);">...</a></li>
+            <li><a href="?page={{ total_page_num }}">{{ total_page_num }}</a></li>
+        {% endif %}
+
+         <!-- 下一页 -->
+          {% if stories_info.has_next %}
+            <li><a href="?page={{ stories_info.next_page_number }}">下一页</a></li>
+            {% else %}
+            <li class="disabled"><a href="javascript:void(0);">下一页</a></li>
+          {% endif %}
+
+       </ul>
+     </nav>
+    <span class="pull-right" style="margin-top: 30px;margin-right: 20px">第{{ current_page_num }}页/总共{{ total_page_num }}页</span>
+   </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+   <script src="{% static 'js/admin/stories/bootstrap-datepicker.min.js' %}"></script>
+ <script src="{% static 'js/admin/stories/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+   <script src="{% static 'js/base/fsweetalert_normal.js' %}"></script>
+   <script src="{% static 'js/admin/user_manage/normal_user.js' %}"></script>
+{% endblock %}

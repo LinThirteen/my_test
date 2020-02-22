@@ -1,0 +1,121 @@
+<!-- 创建templates/admin/course/courses_pub.html文件 -->
+
+{% extends 'admin/base/base.html' %}
+
+
+{% block title %}
+  视频发布页
+{% endblock %}
+
+{% block content_header %}
+  视频发布
+{% endblock %}
+
+{% block header_option_desc %}
+  书是人类进步的阶梯
+{% endblock %}
+
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12 col-xs-12 col-sm-12">
+      <div class="box box-primary">
+        <div class="box-body">
+
+          <div class="form-group" style="margin-top: 30px;">
+            <label for="news-title">视频标题(20个字以内)</label>
+
+                {% if story_video %}
+              <input type="text" class="form-control" id="news-title" name="news-title" placeholder="请输入视频标题"
+                     value="{{ story_video.title }}">
+            {% else %}
+              <input type="text" class="form-control" id="news-title" name="news-title" placeholder="请输入视频标题"
+                     autofocus>
+            {% endif %}
+          </div>
+
+
+
+
+          <div class="form-group" id="container">
+            <label for="news-thumbnail-url">视频封面图</label>
+            <div class="input-group">
+              {% if story_video %}
+                <input type="text" class="form-control" id="news-thumbnail-url" name="news-thumbnail-url"
+                       placeholder="请上传图片或输入封面图地址" value="{{ story_video.cover_url }}">
+              {% else %}
+                <input type="text" class="form-control" id="news-thumbnail-url" name="news-thumbnail-url"
+                       placeholder="请上传图片或输入封面图地址">
+              {% endif %}
+
+              <div class="input-group-btn">
+                <label class="btn btn-default btn-file">
+                  上传至服务器 <input type="file" id="upload-image-server">
+                </label>
+                <button class="btn btn-info" id="upload-image-btn">上传至七牛云</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="progress-bar" style="display: none">
+              <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 0;">0%</div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="docs-file-url">视频地址</label>
+            <div class="input-group" style="width: 100%">
+              {% if story_video %}
+                <input type="text" class="form-control" id="docs-file-url" name="docs-file-url"
+                       placeholder="请上传视频或输入视频地址" style="width: 100%" value="{{ story_video.video_url }}">
+              {% else %}
+                <input type="text" class="form-control" id="docs-file-url" style="width: 100%" name="docs-file-url"
+                       placeholder="请上传视频或输入视频地址">
+              {% endif %}
+
+
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="course-time">课程时长(单位：分钟)</label>
+            {% if story_video %}
+              <input type="text" class="form-control" id="course-time" name="course-time"
+                     placeholder="请输入视频时长" value="{{ story_video.duration }}">
+            {% else %}
+              <input type="text" class="form-control" id="course-time" name="course-time"
+                     placeholder="请输入视频时长" autofocus>
+            {% endif %}
+          </div>
+
+
+
+        </div>
+        <div class="box-footer">
+          {% if story_video %}
+            <a href="javascript:void (0);" class="btn btn-primary pull-right" id="btn-pub-news"
+               data-news-id="{{ story_video.id }}">更新视频 </a>
+          {% else %}
+            <a href="javascript:void (0);" class="btn btn-primary pull-right" id="btn-pub-news">发布视频 </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/moxie.min.js"></script>
+
+  <!-- 七牛云 客户端 并不经过服务端 服务器需要提供 token -->
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/plupload.dev.js"></script>
+  <script src="https://cdn.bootcss.com/qiniu-js/1.0.17.1/qiniu.min.js"></script>
+  <!--一定要在下面 js 文件顺序很重要 -->
+  <script src="{% static 'js/admin/base/fqiniu.js' %}"></script>
+  <script src="{% static 'js/base/fsweetalert.js'%}"></script>
+  <script src="{% static 'js/admin/story_video/video_pub.js' %}"></script>
+{% endblock %}

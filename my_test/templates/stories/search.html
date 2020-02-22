@@ -1,0 +1,276 @@
+{% extends 'base/base_index.html' %}
+{% block title %}
+  {% load stories_template %}
+<title>搜索</title>
+{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/base/search.css' %}">
+{% endblock  %}
+{% block main %}
+   <main >
+
+       <div id="main-t1" class="container" style="width: 87%">
+            <div class="col-md-9" >
+
+                <div class="carousel car-mgn" id="carousels" style="background-color: #fff;height: 200px;top:-7px;border-radius: 10px">
+
+
+             <div class="search-box" style="width: 100%;height: 100%;border-radius: 10px">
+                       <form action="" style="display: inline-flex;margin: auto">
+
+                           <input type="search" placeholder="请输入要搜索的内容" name="q" class="search-control">
+
+
+                           <input type="submit" value="搜索" class="search-btn" style="background-color: #337ab7">
+
+                       </form><br>
+{#                      <div style="width: 80px;height: 30px;background-color: orange;margin: auto"> fdsfdsf </div>#}
+                       <!-- 可以用浮动 垂直对齐 以及 flex  -->
+                   </div>
+
+
+                </div>
+
+
+
+                <div class="carousel car-mgn" style="top:-15px;">
+
+
+
+
+                    <div class="tab-content" id="tab">
+
+
+                    {% if not show %}
+                       <h3 style="margin-left: 40px;padding-top:20px ">搜索结果:{{ paginator.num_pages }}页</h3>
+
+                       {% load highlight %}
+                     {% for story in page.object_list %}
+                     <div style="width: 90%;height: 200px;background-color: white;margin:10px auto;border-bottom: 1px solid #ededed;">
+
+                     <div>
+                      {% if story.object.price %}
+                       <a href="/buy_index/{{ story.id }}" target="_blank">
+                       <img src="{{ story.object.image_url }}"  style="width: 160px;height: 97%;margin: 2px;background-color: white"/></a>
+                     {% else %}
+                          <a href="/read/{{ story.id }}" target="_blank">
+                       <img src="{{ story.object.image_url }}"  style="width: 160px;height: 97%;margin: 2px;background-color: white"/></a>
+                     {% endif %}
+                      <div style="width: 570px;height: 190px;background-color: white;float: right;margin:2px;border-radius: 10px">
+                        <span style="font-size: 20px;cursor: pointer;text-decoration:none;">
+                          {% if story.object.price %}
+                          <a href="/buy_index/{{ story.id }}" style="text-decoration:none;color: black">{% highlight story.title with query %}</a>
+                          {% else %}
+                       <a href="/read/{{ story.id }}" style="text-decoration:none;color: black">{% highlight story.title with query %}</a>
+                          {% endif %}
+                        </span><span style="float: right;margin-right: 10px;">点击量:{{ story.object.clicks }}</span>
+                         <div style="width: 550px;height: 100px;;border-radius: 10px;margin-top: 10px;margin-left: 10px;font-size: 16px;background-color: white;">{% highlight story.digest with query %}</div>
+                          <div style="width: 100%;height: 40px;background:white;border-radius: 10px;margin-top: 10px;line-height: 40px;text-align: center">
+                            <span style="font-size: 15px;float: left;margin-left: 10px">{{ story.object.tag.name }}</span>
+                            <span style="font-size: 15px;padding: auto">{{ story.object.create_time }}</span>
+                            <span style="font-size: 18px;float: right;margin-right: 10px">
+                              {% if story.object.price %}
+                              <a href="/buy_index/{{ story.id }}" style="color: red;text-decoration:none;cursor: pointer">{{ story.object.price }}元</a>
+                        {% else %}
+                        <a href="/read/{{ story.id }}" style="color: red;text-decoration:none;cursor: pointer">免费</a>
+                       {% endif %}
+                            </span></div>
+                      </div>
+
+                     </div>
+                    </div>
+                    {% endfor %}
+
+
+
+
+
+
+                    {% else %}
+
+                        <h3 style="margin-left: 40px;padding-top:20px ">热门推荐</h3>
+                    {% for story in page.object_list %}
+                    <div style="width: 90%;height: 200px;background-color: white;margin:10px auto;border-bottom: 1px solid #ededed;">
+                    {% if story.price %}
+                     <div><a href="/buy_index/{{ story.id }}"><img src="{{ story.image_url }}"  style="width: 160px;height: 97%;margin: 2px;background-color: white"/></a>
+                     {% else %}
+                      <div><a href="/read/{{ story.id }}"><img src="{{ story.image_url }}"  style="width: 160px;height: 97%;margin: 2px;background-color: white"/></a>
+                     {% endif %}
+                      <div style="width: 570px;height: 190px;background-color: white;float: right;margin:2px;border-radius: 10px">
+                      {% if story.price %}
+                        <span style="font-size: 20px;cursor: pointer;text-decoration:none;"><a href="/buy_index/{{ story.id }}" style="text-decoration:none;color: black">{{ story.title }}</a></span><span style="float: right;margin-right: 10px">点击量:{{ story.clicks }}</span>
+                       {% else %}
+                    <span style="font-size: 20px;cursor: pointer;text-decoration:none;"><a href="/read/{{ story.id }}" style="text-decoration:none;color: black">{{ story.title }}</a></span><span style="float: right;margin-right: 10px">点击量:{{ story.clicks }}</span>
+                      {% endif %}
+                         <div style="width: 550px;height: 100px;background:white;border-radius: 10px;margin-top: 10px;margin-left: 10px;font-size: 16px">{{ story.digest }}</div>
+                          <div style="width: 100%;height: 40px;background:white;border-radius: 10px;margin-top: 10px;line-height: 40px;text-align: center">
+                            <span style="font-size: 15px;float: left;margin-left: 10px">{{ story.tag.name }}</span>
+                            <span style="font-size: 15px;padding: auto">{{ story.create_time|date }}</span>
+                            <span style="font-size: 18px;float: right;margin-right: 10px">
+                              {% if story.price %}
+                              <a href="/buy_index/{{ story.id }}" style="color: red;text-decoration:none;cursor: pointer">{{ story.price }}元</a>
+
+                        {% else %}
+                        <a href="/read/{{ story.id }}" style="color: red;text-decoration:none;cursor: pointer">免费</a>
+                       {% endif %}
+                            </span></div>
+
+                      </div>
+                     </div>
+                    </div>
+                    {% endfor %}
+
+                    {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <div class="page-box" id="pages">
+                       <div class="pagebar" id="pageBar">
+                          <a class="a1">{{ page.paginator.count | default:0 }}条</a>
+{#                         #page.paginator.count总条数   view    #}
+
+{#                page.has_previous       上一页的URL地址     view#}
+                         {% if page.has_previous %}
+                           {% if kw %}
+                             <a href="{% url 'stories:search' %}?q={{ kw }}&amp;page={{ page.previous_page_number }}&q={{ kw }}"
+                                class="prev" style="width: 10%">上一页</a>
+                           {% else %}
+                             <a href="{% url 'stories:search' %}?page={{ page.previous_page_number }}" class="prev" style="width: 10%">上一页</a>
+                           {% endif %}
+                         {% endif %}
+
+
+{#                          列出所有的URL地址 页码#}
+                       {% if page.has_previous or page.has_next %}
+
+                        {% for n in page|page_bar %}
+                            {% if kw %}
+                                {% if n == '...' %}
+                                    <span class="point">{{ n }}</span>
+                                {% else %}
+                                    {% if n == page.number %}
+                                        <span class="sel">{{ n }}</span>
+                                    {% else %}
+                                        <a href="{% url 'stories:search' %}?page={{ n }}&q={{ kw }}">{{ n }}</a>
+                                    {% endif %}
+                                {% endif %}
+                            {% else %}
+                                {% if n == '...' %}
+                                    <span class="point">{{ n }}</span>
+                                {% else %}
+                                    {% if n == page.number %}
+                                        <span class="sel">{{ n }}</span>
+                                    {% else %}
+                                        <a href="{% url 'stories:search' %}?page={{ n }}">{{ n }}</a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+{#                       next_page 下一页的URL地址#}
+                         {% if page.has_next %}
+                           {% if kw %}
+                             <a href="{% url 'stories:search' %}?page={{ page.next_page_number }}&q={{ kw }}"
+                                class="next" style="width: 10%;margin-bottom: 20px">下一页</a>
+                           {% else %}
+                             <a href="{% url 'stories:search' %}?q={{ kw }}&page={{ page.next_page_number }}" class="next" style="width: 10%;margin-bottom: 20px">下一页</a>
+                           {% endif %}
+                         {% endif %}
+                       </div>
+                     </div>
+                    </div>
+
+
+
+</div>
+
+
+            </div>
+
+  {% block right %}
+
+            <div class="col-md-3" style="top:-10px">
+                <div class="row clr-mgn">
+                    <h3 class="text-center">今日推荐</h3>
+                   <div class="carousel mgnlt">
+                        <div id="carousel2333" class="carousel slide" data-interval="3000" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel2333" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel2333" data-slide-to="1"></li>
+                                    <li data-target="#carousel2333" data-slide-to="2"></li>
+                                </ol>
+                                <div  class="carousel-inner" role="listbox" style="width: 100%">
+                                    <div class="item active">
+                                      {% if recommend_frist.price %}
+
+                                      <a href="{% url 'stories:buy_index' recommend_frist.id %}" target="_blank">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_frist.id %}">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                          {% if recommend_secoend.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_secoend.id %}" target="_blank">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_secoend.id %}">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                        {% if recommend_third.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_third.id %}" target="_blank">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                     <a href=" {% url 'stories:read' recommend_third.id %}">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                          {% endif %}
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="row clr-mgn">
+                    <h3 class="text-center">排行榜</h3>
+                    <ul class="list-group" id="more">
+                      {% for rank in ranking %}
+                        {% if rank.price %}
+                   <li class="list-group-item"><a class="" href="/buy_index/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+                        {% else %}
+                               <li class="list-group-item"><a class="a-noline" href="/read/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+
+                        {% endif %}
+                      {% endfor %}
+
+
+                    </ul>
+                </div>
+
+            </div>
+      {% endblock %}
+        </div>
+       </div>
+    </main>
+{% endblock %}
+{% block script %}
+
+{% endblock %}

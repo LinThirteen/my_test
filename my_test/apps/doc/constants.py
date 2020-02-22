@@ -1,0 +1,2 @@
+# 下载小说
+SHOW_DOWNLOAD_STORY_COUNT = 4

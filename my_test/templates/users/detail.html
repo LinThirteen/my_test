@@ -1,0 +1,177 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>下载页面</title>
+{% endblock %}
+{% block link %}
+  {#<link rel="stylesheet" href="{% static 'css/base/Search-css.css' %} }">#}
+
+{% endblock %}
+{% block main %}
+  <main>
+    <div class="container">
+      <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fuild" style="border: 2px solid  #32a7b8;border-radius: 5px ">
+          <img src="{% static 'images/个人中心.jpg' %}"
+               style="width: 100%;height: 300px;border: 2px solid  #32a7b8;border-radius: 10px">
+        </div>
+      </nav>
+    </div>
+    <div class="container" style="background-color:#f4efea;border: 1px solid #f4efea;border-radius: 7px">
+
+
+      <div class="tab-content" style="background-color:#f4efea">
+
+        <div class="tab-content1" role="tabpanel" id="" style="width: 1140px;height: 600px;background-color:#f4efea;">
+
+
+          <div class="" style="height: 120px;width: 200px;float: left;margin-left: 150px ">
+            {% if user.is_authenticated %}
+              <h1 style="margin-top: 100px;margin-left: -100px;width: 350px;text-align: center;font-size: 50px;color: orange">
+                Hi! <span style="font-size: 35px">   {{ user.username }}</span></h1>
+{#              {% if user.detail.image_url %}#}
+                <img src="{{ user.detail.image_url }}" id="top" class="img-thumbnail banner-image"
+                     style="width: 120px;height: 120px;margin-top: 32px">
+{#              {% else %}#}
+{#              <img src="{% static 'images/default.jpg' %}" id="top" class="img-thumbnail banner-image"#}
+{#                   style="width: 120px;height: 120px;margin-top: 32px">#}
+{#            {% endif %}#}
+            <button class="btn btn-info" id="upload-btn" style="width: 120px;background-color:#5bc0de">头像更换</button>
+            <div class="form-group">
+              <div class="progress" style="display: none;width: 120px;">
+                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 120px;">0%</div>
+              </div>
+            </div>
+            {% else %}
+            <h1 style="margin-top: 100px;margin-left: -100px;width: 350px;text-align: center;font-size: 50px;color: orange">
+              Hi! <span style="font-size: 35px">   请登录</span></h1>
+            <a href="{% url 'users:login' %}"><img src="{% static 'images/logindetail.png' %}"
+                                                   class="img-thumbnail banner-image"
+                                                   style="width: 120px;height: 120px;margin-top: 32px"></a>
+            {% endif %}
+            {#               <canvas id="myCanvas" style="width: 120px;height: 120px;" ></canvas>#}
+          </div>
+
+          <div style="float: right;margin-top: 110px;margin-right: 110px">
+            <iframe scrolling="no" src="https://tianqiapi.com/api.php?style=tp&skin=pitaya" frameborder="0" width="180"
+                    height="280" allowtransparency="true"></iframe>
+          </div>
+
+          <div class="reginster-content"
+               style="height: 400px; width: 350px; background-color:#f4efea;margin:auto;padding-top: 50px">
+            <form action="" method="post" class="form-contains">
+              {% csrf_token %}
+              <div class="form-item" style="margin-top: 15px;">
+                {#                 {% csrf_token %}#}
+                {% if user.detail.address %}
+                <input type="tel" placeholder="请输入您的地址" value="{{ user.detail.address }}" id="address" name="address"
+                       class="form-control" autocomplete="off"
+                       style="height: 40px;opacity: 1">
+                {% else %}
+                 <input type="tel" placeholder="请输入您的地址"  id="address" name="address"
+                       class="form-control" autocomplete="off"
+                       style="height: 40px;opacity: 1">
+                {% endif %}
+              </div>
+              <div class="form-item" style="margin-top: 15px;">
+                {#                 {% csrf_token %}#}
+                {% if user.detail.sex %}
+                  <select name="category" id="sex" class="form-control" style="">
+                    <option value="{{ user.detail.sex }}" selected>{{ user.detail.get_sex_display }}</option>
+
+                    <option value="0">女</option>
+                  </select>
+                {% else %}
+                  <select name="category" id="sex" class="form-control" style="">
+                    <option value="0">女</option>
+                    <option value="1">男</option>
+
+                  </select>
+                {% endif %}
+              </div>
+
+              <div class="form-item" style=" margin-top: 15px;">
+                <input type="password" placeholder="请输入新密码(若不需要改密码请忽略)" name="password" id=password class="form-control"
+                       style="height: 40px;opacity: 1">
+              </div>
+              <div class="form-item" style=" margin-top: 15px;">
+                <input type="password" placeholder="请再次输入新密码" name="password_repeat" id="password_repeat"
+                       class="form-control" style="height: 40px;opacity: 1">
+              </div>
+              <div class="form-item" style=" margin-top: 15px;">
+                {% if user.detail.introduce %}
+                  <textarea rows="5" cols="10"
+                            style="padding-left: 3%;padding-top: 2% ;border-radius:5px; resize:none;height: 100px;width: 350px ;background-color: white;"
+                            placeholder="个性签名(50个字以内)" id="test" maxlength="50">{{ user.detail.introduce }}</textarea>
+                {% else %}
+                  <textarea rows="5" cols="10"
+                            style="padding-left: 3%;padding-top: 2%;border-radius:5px; resize:none;height: 100px;width: 350px ;background-color: white;"
+                            placeholder="个性签名(50个字以内)" id="test" maxlength="50" ></textarea>
+                {% endif %}
+
+              </div>
+              <div class="form-item" style=" margin-top: 15px;">
+                <input type="tel" placeholder="" name="telephone" id="mobile" value="{{ user.mobile }}"
+                       autocomplete="off"
+                       class="form-control" style="height: 40px;opacity: 1">
+              </div>
+              <div class="form-item" style=" margin-top: 15px;z-index: 2">
+                <input type="text" placeholder="请输入短信验证码" name="sms_code" class="form-captcha" autocomplete="off"
+                       style="margin-left: 0px;width:220px;height: 40px;border-radius: 5px;padding-left: 0.7em;border: 1px solid #ddd;">
+                <a href="javascript:void(0);" id="sms-captcha-captcha" title="发送验证码"
+                   style="text-decoration:none;float: right;width: 120px;height: 40px;border: 1px solid #3fdaf3;border-radius: 5px;text-align: center;line-height: 40px;">获取短信验证码</a>
+              </div>
+              <div class="form-item" style="margin-top: 15px;">
+                <input type="submit" value="保存修改" class="register-btn"
+                       style="width: 100%;height: 40px;font-size: 18px;color: white;background-color: #5bc0de; border-radius: 5px; border: 1px solid #5bc0de;margin-top: -5px">
+              </div>
+            </form>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </main>
+  {#   <script type="text/javascript">#}
+  {#        var imgPosX = 120;#}
+  {#        var imgWidth = 120;#}
+  {#        function dealSelectFiles(){#}
+  {#            /// get select files.#}
+  {#            var selectFiles = document.getElementById("selectFiles").files;#}
+  {##}
+  {#            for(var file of selectFiles){#}
+  {#                console.log(file.webkitRelativePath);#}
+  {#                /// read file content.#}
+  {#                var reader = new FileReader();#}
+  {#                reader.readAsDataURL(file);#}
+  {#                reader.onloadend = function(){#}
+  {#                    /// deal data.#}
+  {#                    var img = new Image();#}
+  {#                    /// after loader, result storage the file content result.#}
+  {#                    img.src = this.result;#}
+  {#                    img.onload = function(){#}
+  {#                        var myCanvas = document.getElementById("myCanvas");#}
+  {#                        var cxt = myCanvas.getContext('2d');#}
+  {#                        cxt.drawImage(img, 0, 0);#}
+  {##}
+  {#                    }#}
+  {#                }#}
+  {#            }#}
+  {#        }#}
+  {#    </script>#}
+{% endblock %}
+{% block script %}
+  <script src="{% static 'js/story/bootstrap-datepicker.min.js' %}"></script>
+  <script src="{% static 'js/story/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+
+  {# 导入七牛云需要的4个js文件 #}
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/moxie.min.js"></script>
+  <script src="https://cdn.bootcss.com/plupload/2.1.9/plupload.dev.js"></script>
+  <script src="https://cdn.bootcss.com/qiniu-js/1.0.17.1/qiniu.min.js"></script>
+  <script src="{% static 'js/user/detail.js' %}"></script>
+  <script src="{% static 'js/admin/base/fqiniu.js' %}"></script>
+
+{% endblock %}

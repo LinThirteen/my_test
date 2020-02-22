@@ -1,0 +1,36 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    background-color:#32a7b8;
+}
+.clr-mgn{
+    margin-top:21px;
+    background-color: #fff;
+}
+.mar-left{
+    margin-left: -15px;
+}
+.mar-right{
+    margin-right: 15px;
+
+}
+.item{
+    margin-left: 200px;
+}
+#myfooter{
+    margin-top: 10px;
+    color: #32A7B8;
+}
+#myfooter .a2{
+    color: #32A7B8;
+    font-size: 18px;
+    padding-left: 80px;
+    text-decoration: none;
+}
+#myfooter .a1{
+    color: #32A7B8;
+    font-size: 18px;
+    text-decoration: none;
+}

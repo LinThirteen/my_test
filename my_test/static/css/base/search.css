@@ -1,0 +1,68 @@
+/* ================= main start ================= */
+
+
+/* ===  search-box start === */
+.car-mgn .search-box {
+    padding: 40px 50px;
+    width: 700px;
+    box-shadow: 1px 2px rgba(0,0,0,.1);
+    display: inline-flex;
+}
+.car-mgn .search-box .search-control {
+    width: 600px;
+    height: 40px;
+    border-radius: 20px 0 0 20px;
+    border: 1px solid #ddd;
+    border-right: none;
+    padding-left: 0.88em;
+    font-size: 20px;
+}
+.car-mgn .search-box .search-btn {
+    width: 100px;
+    height: 40px;
+    border: 1px solid #337ab7;
+    background: #337ab7;
+    color: #fff;
+    font-size: 20px;
+    border-radius:  0 20px 20px 0;
+    cursor: pointer;
+}
+/* ===  search-box end === */
+
+
+
+#pages {
+	padding: 10px 0 10px;
+}
+
+.page-box {
+	text-align: center;
+    /*font-size: 14px;*/
+}
+
+#pages a.prev, a.next {
+	width: 56px;
+	padding: 0
+}
+
+#pages a {
+	display: inline-block;
+	height: 26px;
+	line-height: 26px;
+	background: #fff;
+	border: 1px solid #e3e3e3;
+	text-align: center;
+	color: #333;
+	padding: 0 10px
+}
+
+#pages .sel {
+	display: inline-block;
+	height: 26px;
+	line-height: 26px;
+	background: #0093E9;
+	border: 1px solid #0093E9;
+	color: #fff;
+	text-align: center;
+	padding: 0 10px
+}

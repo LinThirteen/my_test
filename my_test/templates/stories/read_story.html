@@ -1,0 +1,183 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+  <title>阅读页面</title>
+{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="../../static/css/base/buy_detail.css">
+
+{% endblock %}
+{% block main %}
+
+  <main>
+
+    <div id="main-t1" class="container" style="width: 87%">
+      <div class="col-md-9">
+        <div class="carousel car-mgn" id="carousels" style="background-color: #fff;height: 61%;top:-7px;border-radius: 10px">
+          <div class="search-box" style="width: 100%;height: 100%;border-radius: 10px;background-color: white">
+            <div style="height: 72%;width: 23%;background-color: white;float: left;border-radius: 10px;margin: 59px 59px 0px 59px ">
+              <img src="{{ chapters.story.image_url }}" alt="" style="width: 100%;height: 100%;border-radius: 10px;border:2px solid #F0CAB6">
+            </div>
+             <div class="" style="height: 72%;width: 55%;background-color: white;float: right;border-radius: 10px;margin: 39px 59px 10px 0px ">
+                  <h3 class="h-title" id="book_title"  book_title="{{ chapters.story.title }}">{{ chapters.story.title }}</h3>
+                    <h5 style="color:gray;">作者：{{ chapters.story.author.username }}</h5>
+                <div style="background-color: #FFF2E8;margin-top: 2%;width:92%;height: 35%;padding-top: 5%;padding-left: 5%;padding-right: 5%">
+                        {{ chapters.story.digest }}
+                </div>
+
+                  <div class="form-item" style="margin-top: 15px;width: 92%">
+
+                  <select name="category" id="chapter" class="form-control" >
+
+              {% for one_c in chapter %}
+                <option value="{{ one_c.id }}">{{ one_c.chapter }}&nbsp;&nbsp;&nbsp;--&nbsp;&nbsp;{{ one_c.chapter_title }}&nbsp;&nbsp;--</option>
+              {% endfor %}
+                  </select>
+              </div>
+                <div class="form-item">
+                    <h5 style="color:gray;margin-left: 25%">(选好章节后点击立即阅读）</h5></div>
+                <div class="form-item"  style="margin-top: 25px;width: 93%;">
+                  <button value="立即阅读" id="read" class="buy-btn" story-id="{{ chapters.story.id }}" style="width:99%;height: 40px;font-size: 18px;color:#E5511D;background-color: #FFE4D0; border-radius: 5px; border: 1px solid #F0CAB6;margin-top: -5px">立即阅读</button>
+      </div>
+             </div>
+
+          </div>
+        </div>
+
+            <div class="comment-contain" style="background-color: white;margin-top:4px">
+             <div class="comment-pub clearfix" id="context" style="border-bottom:  1px solid #ddd;margin-bottom: 10px">
+
+{#              <h4 style="width: 100%;margin: 15px auto">fsfdsfdsfdsfdsf</h4>#}
+               <div class="content_title" style="width:90% ;margin:15px auto;text-align: center"><h4>{{ chapters.chapter }}: {{ chapters.chapter_title }}</h4></div>
+
+              <div class="one_content" style="width: 90%;border-bottom:1px solid #ddd;margin: auto;margin-bottom: 10%">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ chapters.content|safe }}</div>
+               <div class="new-comment" style="margin: 20px 20px">
+         文章评论  {# (<span class="comment-count"></span>)#}
+        </div>
+               {% if user.is_authenticated %}
+          <div class="comment-control logged-comment" stories-id="{{ story_detail.id }}" style="">
+            <input type="text" placeholder="请填写评论" style="width: 90%;margin-left: 5%">
+            <button class="comment-btn" style="float: right;width:10%;height: 30px;background-color: #FFE4D0;margin-right: 20px;margin-bottom: 10px;margin-top: 20px;border: 1px solid #F0CAB6;border-radius: 5px;color:#E5511D">发表评论</button>
+          </div>
+        {% else %}
+          <div class="comment-control please-login-comment" stories-id="{{ story_detail.id }}" style="width: 90%;margin-left: 5%;">
+            <input type="text" placeholder="请登录后参加评论" readonly>
+            <button class="comment-btn"  style="float: right;width:10%;height: 30px;background-color: #FFE4D0;margin-right: 20px;margin-bottom: 10px;margin-top: 20px;border: 1px solid #F0CAB6;border-radius: 5px;color:#E5511D">发表评论</button>
+          </div>
+        {% endif %}
+      </div>
+  <div class="comment-put" >
+             {% for one_comment in comments_list %}
+               {% if not one_comment.parent %}
+              <div  style="width: 90%;background-color:white;margin:10px auto;border-bottom: 1px solid #ddd;">
+              <img src="{{ one_comment.user_image_url }}" style="width: 50px;height: 50px;border-radius: 5px" alt=""><span style="margin-left: 2%">{{ one_comment.author }}:</span><span style="color:grey;font-size:11px ;float: right;margin-top: 17px">{{ one_comment.update_time }}</span>
+                <h5 style="margin-left: 12%;width: 85%">{{ one_comment.content }}</h5>
+
+               <div class="comment-list"  > <a href="javascript:" class="reply_a_frist" style="border-radius: 5px;margin-left: 94%;font-size: 14px;border: 2px solid #76b6f4;background-color: #76b6f4;color: white;text-decoration:none">&nbsp;回复&nbsp;</a>
+
+              <form class="reply_form left_float" comment-id="{{ one_comment.content_id }}"
+                  stories-id="{{ one_comment.stories_id }}">
+              <textarea class="reply_input" style="height: 15%"></textarea>
+              <input type="button" value="回复" class="reply_btn right_float" style="font-size: 12px">
+              <input type="reset" name="" value="取消" class="reply_cancel right_float">
+            </form>
+               </div>
+                <div style="" class="">&nbsp;</div>
+
+              <div style="" class="son-comment" >
+
+                 {% for one_comments in comments_list %}
+
+                {% if one_comments.parent.content_id == one_comment.content_id %}
+                <div style="width: 80%;background-color: white;margin: auto">
+                <div><img src="{{ one_comments.user_image_url }}" style="margin-top: 7px;width: 35px;height: 35px;border-radius: 5px;" alt=""><span style="margin-left: 1.5%;margin-top: 10px">{{ one_comments.author }}&nbsp;&nbsp;回复：</span>
+              </div>
+                <h6 style="margin-left: 12%;width: 85%;margin-top: 0px;">{{ one_comments.content }}</h6>
+                </div>
+                {% endif %}
+              {% endfor %}
+                </div>
+            </div>
+
+               {% endif %}
+                  {% endfor %}
+            </div>
+
+    </div>
+        </div>
+
+      {% block right %}
+        <div class="col-md-3" style="top:-10px">
+          <div class="row clr-mgn">
+            <h3 class="text-center">今日推荐</h3>
+            <div class="carousel mgnlt">
+              <div id="carousel2333" class="carousel slide" data-interval="3000" data-ride="carousel">
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel2333" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel2333" data-slide-to="1"></li>
+                  <li data-target="#carousel2333" data-slide-to="2"></li>
+                </ol>
+               <div  class="carousel-inner" role="listbox" style="width: 100%">
+                                    <div class="item active">
+                                      {% if recommend_frist.price %}
+
+                                      <a href="{% url 'stories:buy_index' recommend_frist.id %}" target="_blank">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_frist.id %}">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                          {% if recommend_secoend.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_secoend.id %}" target="_blank">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_secoend.id %}">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                        {% if recommend_third.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_third.id %}" target="_blank">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                     <a href=" {% url 'stories:read' recommend_third.id %}">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                          {% endif %}
+                                    </div>
+                                </div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <div class="row clr-mgn">
+                    <h3 class="text-center">排行榜</h3>
+                    <ul class="list-group" id="more">
+                      {% for rank in ranking %}
+                        {% if rank.price %}
+                   <li class="list-group-item"><a class="a-noline" href="/buy_index/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+                        {% else %}
+                    <li class="list-group-item"><a class="a-noline" href="/read/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+                        {% endif %}
+                      {% endfor %}
+
+
+                    </ul>
+                </div>
+        </div>
+      {% endblock %}
+
+    </div>
+
+  </main>
+{% endblock %}
+
+{% block script %}
+<script src="../../static/js/story/read_story.js"></script>
+{% endblock %}

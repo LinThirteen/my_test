@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{#<title>优克里·书屋</title>#}
+{% block title %}
+
+{% endblock %}
+{#<link rel="stylesheet" media="all" href="https://cdn.mailblast.io/assets/theme-fa50dbb775a5b9940b5f7faa70ec78a4edce61a301e0194b6d86d4e9ae6aee2c.css" />#}
+{#<link rel="stylesheet" media="all" href="https://cdn.mailblast.io/assets/application-e82c2d7c50ca0640bf7dba7aeaf33b921c8c67468c5b6cf46b98c6ce7364b452.css" />#}
+<link rel="shortcut icon" type="image/png" href="{% static 'images/阅读.png' %}"/>
+<link rel="stylesheet" media="screen" href="{% static 'css/users/2c.css' %}" />
+<link rel="stylesheet" media="screen" href="{% static 'css/users/52.css' %}" />
+<link rel="stylesheet" media="screen" href="{% static 'css/users/Montserrat.css' %}" />
+<link rel="stylesheet" media="screen" href="{% static 'css/users/Source.css' %}" />
+{#<link rel="stylesheet" href="../../static/css/base/reset.css">#}
+{#<link rel="stylesheet" href="../../static/css/base/common.css">#}
+{#<link rel="stylesheet" href="http://at.alicdn.com/t/font_684044_un7umbuwwfp.css">#}
+{% block link %}
+{% endblock %}
+</head>
+
+<body id="home_controller" class="index_action" >
+{#    <div class="wrapper">#}
+{#      <nav class="navbar navbar-expand-lg header-area">#}
+{#    <a class="navbar-brand" href="/">Yokelele</a>#}
+{##}
+{#</nav>#}
+  {% block head %}
+  {% endblock %}
+
+{#<div id="home">#}
+{#  <div id="items">#}
+{#    <div class="cont-area">#}
+{#      <div class="container banner-area">#}
+{#        <ul class="slides clearfix">#}
+{#          <li>#}
+{#            <h1>优克里</h1>#}
+{#            <h5>Books are the ever-burning lamps of accumulated wisdom</h5>#}
+{#            <br><br>#}
+{#            <div>#}
+{#              <a class="large-button" href="{% url 'content:index' %}">读者预览</a>#}
+{#              <a class="large-button" href="{% url 'users:login' %}">登录</a>#}
+{#              <a class="large-button" href="{% url 'users:register' %}">注册</a>#}
+{#            </div>#}
+{#            <br><br>#}
+{#          </li>#}
+{#        </ul>#}
+{#      </div>#}
+{#    </div>#}
+{##}
+{#    <div class="banner-btm-img"><img src="{% static 'images/2.png' %}" /></div>#}
+{#  </div>#}
+{#</div>#}
+  {% block main %}
+  {% endblock %}
+{% block image %}
+{% endblock %}
+{#<div class="about-area text-center" style="height:0px;">#}
+{#  <div class="section-spacing about-top-area">#}
+{#    <div class="container" >#}
+{#      <div class="top-float-img" >#}
+{#        <div class="image-container" ><img src="{% static 'images/1.png'%}"  /></div>#}
+{#      </div>#}
+{#    </div>#}
+{#  </div>#}
+{#</div>#}
+      <div class="footer" style="margin-top:-50px">
+        <footer class="footer-area">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5 style="color: #fff">关于</h5>
+        <p>开发团队:南方优克里团队 </p>
+        <p>说明：本网站适用于长时间阅读,为读者打造一种温馨不易疲倦的阅读环境</p>
+      </div>
+
+      <div class="col-sm-4">
+        <h5 style="color: #fff">说明</h5>
+        <p>©ALIMAMA MUX by alimama THX.法律声明</p>
+        <p>转载内容版权归作者及来源网站所有，本站原创内容转载请注明来源，商业媒体及纸媒请先联系:mr_linw@163.com</p>
+      </div>
+
+      <div class="col-sm-4">
+        <h5 style="color: #fff">联系方式</h5>
+        <p>微信:K13719899748</p>
+        <p>Q  &nbsp;  Q:1518895744</p>
+        <p>微博:JOM林十三</p>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+      </div>
+    </div>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="../../static/js/base/common.js"></script>
+<script src="../../static/js/base/message.js"></script>
+{% block script %}
+{% endblock %}
+
+  </body>
+</html>

@@ -1,0 +1,56 @@
+*{
+    margin: 0px;
+    padding: 0px;
+}
+body{
+    background-color: #32A7B8;
+}
+#main-t1{
+    /* padding-top: -50px; */
+    margin-top: -8px;  
+}
+#myfooter{
+    margin-top: 10px;
+    color: #32A7B8;
+}
+#myfooter .a2{
+    color: #32A7B8;
+    font-size: 18px;
+    padding-left: 80px;
+    text-decoration: none;
+}
+#myfooter .a1{
+    color: #32A7B8;
+    font-size: 18px;
+    text-decoration: none;
+}
+.clr-mgn{
+    margin-top:12px;
+    background-color: #fff;
+}
+.car-mgn{
+    margin-top:8px;
+    background-color: #fff;
+}
+.h-title{
+    text-align: center;
+}
+.bgimg{
+    background-image: url(/img/rocket.png);
+}
+.mgnlt{
+    margin-left: 20px;
+}
+#more li{
+
+    list-style: none;
+}
+#more .a-noline{
+    text-decoration: none;
+}
+.price{
+    margin-left: 30px;
+}
+/* .carousel .nav >li:hover .tab-content {display: block;} */
+.navbar .nav > li .dropdown-menu {margin: 0;}  
+.navbar .nav > li:hover .dropdown-menu {display: block;}

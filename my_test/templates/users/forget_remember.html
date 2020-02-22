@@ -1,0 +1,62 @@
+{% extends 'base/base.html' %}
+{% block title %}
+<title>登录页面</title>
+{% endblock %}
+{% block head %}
+       <nav class="navbar navbar-expand-lg header-area">
+    <a class="navbar-brand" href="{% url 'users:login' %}"> < 返回 </a>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">注册</a></li>
+      </ul>
+    </div>
+</nav>
+{% endblock %}
+{% block main %}
+  <div id="home">
+  <div id="items">
+    <div class="cont-area" >
+      <div class="container banner-area" style="top:-10px">
+        <ul class="slides clearfix">
+          <li style="height: 50px;">
+
+            <div class="login-content" style="height: 250px; width: 350px; background-color:#32A7B8;margin: auto">
+            <form action="" method="post" class="form-contain">
+               <div class="form-item" style=" margin-top: -5px; ">
+                  <input type="tel" placeholder="请输入手机号" name="telephone" id="mobile" autocomplete="off" class="form-control"  style="height: 40px;opacity: 1">
+            </div>
+
+       <div class="form-item" style=" margin-top: 15px;z-index: 2">
+        <input type="text" placeholder="请输入短信验证码" name="sms_code" class="form-captcha" autocomplete="off" style="margin-left: -5px;width:225px;height: 40px;border-radius: 5px;padding-left: 0.7em;border: 1px solid #ddd;">
+        <a href="javascript:void(0);" id="sms-captcha-captcha" title="发送验证码" style="text-decoration:none;float: right;width: 120px;height: 40px;border: 1px solid #3fdaf3;border-radius: 5px;text-align: center;line-height: 40px;" >获取短信验证码</a>
+      </div>
+      <div class="form-login" style="margin-top: 10px;background-color: #32A7B8;margin-top: 15px " >
+        <input type="submit" value="登录" class="login-btn" style="width: 100%;height: 40px;font-size: 18px;color: white;background-color: #32A7B8; border-radius: 5px; border: 1px solid #ddd;margin-top: -5px">
+      </div>
+  </form>
+  </div>
+  <br><br>
+</li>
+</ul>
+</div>
+</div>
+<div class="banner-btm-img"><img src="{% static 'images/2.png' %}" /></div>
+</div>
+</div>
+
+{% endblock %}
+{% block image %}
+  <div class="about-area text-center" style="height:0px;">
+  <div class="section-spacing about-top-area">
+    <div class="container" >
+      <div class="top-float-img" >
+        <div class="image-container" ><img src="{% static 'images/1.png'%}"  /></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+   <script src="{% static 'js/login_register/forget.js' %}"></script>
+{% endblock %}

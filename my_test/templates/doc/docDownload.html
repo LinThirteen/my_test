@@ -1,0 +1,64 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+<title>下载页面</title>
+{% endblock %}
+{% block link %}
+{#<link rel="stylesheet" href="{% static 'css/base/Search-css.css' %} }">#}
+
+{% endblock  %}
+{% block main %}
+   <main>
+        <div class="container">
+            <nav class="navbar navbar-default" role="navigation">
+                <div class="container-fuild" style="border: 2px solid  #32a7b8;border-radius: 5px ">
+                  <img src="{% static 'images/下载背景.jpg' %}" style="width: 100%;height: 300px;border: 2px solid  #32a7b8;border-radius: 10px">
+{#                        <ul class="nav navbar-nav" style="line-height: 52px;width: 100%;height: 300px;background-color: coral ">#}
+{#                          #}
+{#                        </ul>#}
+                </div>
+            </nav>
+        </div>
+        <div class="container" style="background-color:#f4efea;border: 1px solid #f4efea;border-radius: 7px">
+
+
+            <div class="tab-content" style="background-color:#f4efea">
+
+            <div class="tab-content1" role="tabpanel" id="" style="width: 1140px;background-color:#f4efea">
+                  {% for doc in  doc_list %}
+                  <div style="width:560px;height: 245px;background-color: #f4efea;float: left;display: inline;margin: 5px;border: 2px solid #5bc0de ;border-radius: 10px">
+                    <div class=""><a href="#"><img src="{{ doc.image_url }}"  style="width: 196px;height: 237px;margin: 2px;border-radius: 10px"/></a>
+                    <div style="width: 350px;height: 235px;float: right;background: #f4efea;margin:2px;border-radius: 10px">
+                      <div style="width: 100%;height: 40px;background: #f4efea;line-height: 40px;border-radius: 10px;text-align: center;margin-top: 10px"><span style="font-size: 20px;cursor: pointer;text-decoration:none;"><a style="text-decoration:none;color: black">{{ doc.title }}</a></span></div>
+                      <div style="width: 330px;height: 100px;background:#f4efea;border-radius: 10px;margin-top: 15px;margin-left: 10px;font-size: 16px">{{ doc.story_digest }}</div>
+                      <div style="width: 100%;height: 40px;background:#f4efea;border-radius: 10px;margin-top: 15px;line-height: 40px"><span style="font-size: 18px;margin-left: 250px"><a href="/doc/{{ doc.id }}/" style="color: red;text-decoration:none;cursor: pointer">免费下载</a></span></div>
+                    </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+            </div>
+
+
+
+
+
+               <nav aria-label="Page navigation">
+                            <ul class="pager">
+
+
+                            </ul>
+                  <div class="tab004" style="background-color:#f4efea ;height: 50px;margin-top: -20px;">
+                              <li style="background-color:#f4efea;border-radius:25px;text-align: center;line-height: 30px;list-style-type:none;border: 2px solid #5bc0de ;width: 200px;margin-left: 470px;margin-top: 50px" class="tab003"><a href="#tab02" class="tab002"  style="width: 50px;text-decoration:none;">滚动加载更多</a></li></div>
+                        </nav><br>
+                </div>
+
+
+            </div>
+
+    </main>
+{% endblock %}
+{% block script %}
+  <script src="{% static 'js/story/bootstrap-datepicker.min.js' %}"></script>
+ <script src="{% static 'js/story/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+   <script src="{% static 'js/doc/docDownload.js' %}"></script>
+{% endblock %}

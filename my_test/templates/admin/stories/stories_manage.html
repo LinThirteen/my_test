@@ -1,0 +1,175 @@
+{% extends 'admin/base/base.html' %}
+{% load static %}
+
+{% block title %}
+ 小说管理页
+{% endblock %}
+
+{% block content_header %}
+  小说管理
+{% endblock %}
+
+{% block header_option_desc %}
+  正确的决策来自众人的智慧
+{% endblock %}
+
+
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/admin/base/bootstrap-datepicker.min.css' %}">
+ <style>
+   .ml20 {
+     margin-left: 20px;
+   }
+
+   .mt20 {
+     margin-top: 20px;
+   }
+ </style>
+ <div class="box">
+   <div class="box header" style="padding-bottom: 20px">
+     <form action="" class="form-inline" >
+       <div class="form-group ml20 mt20">
+         <label for="title">标题：</label>
+         {% if title %}
+           <input type="text" class="form-control" placeholder="请输入标题" id="title" name="title" value="{{ title }}">
+           {% else %}
+          <input type="text" class="form-control" placeholder="请输入标题" id="title" name="title">
+         {% endif %}
+
+       </div>
+       <div class="form-group ml20 mt20">
+         <label for="author">作者：</label>
+         {% if author_name %}
+           <input type="text" class="form-control" placeholder="请输入作者" id="author" name="author_name"
+                  value="{{ author_name }}">
+         {% else %}
+           <input type="text" class="form-control" placeholder="请输入作者" id="author" name="author_name">
+         {% endif %}
+       </div>
+      <div class="form-group ml20 mt20">
+         <label for="select-time">时间：</label>
+         {% if start_time %}
+         <input type="text" class="form-control" placeholder="请选择起始时间" readonly
+                id="select-time" name="start_time" value="{{ start_time }}">
+           {% else %}
+           <input type="text" class="form-control" placeholder="请选择起始时间" readonly
+                  id="select-time" name="start_time">
+         {% endif %}
+         -
+          {% if end_time %}
+        <input type="text" class="form-control" placeholder="请选择结束时间" readonly
+               name="end_time" value="{{ end_time }}">
+          {% else %}
+            <input type="text" class="form-control" placeholder="请选择结束时间" readonly name="end_time">
+          {% endif %}
+       </div>
+       <div class="form-group ml20 mt20">
+         <label for="tag">分类：</label>
+         <select class="form-control" id="tag" name="tag_id" style="width: 201.27px">
+           <option value="0">--请选择分类--</option>
+           {% for one_tag in tags %}
+
+             {% if tag_id and one_tag.id == tag_id %}
+               <option value="{{ one_tag.id }}" selected>{{ one_tag.name }}</option>
+             {% else %}
+               <option value="{{ one_tag.id }}">{{ one_tag.name }}</option>
+             {% endif %}
+
+           {% endfor %}
+         </select>
+       </div>
+       <div class="form-group ml20 mt20">
+         <button class="btn btn-primary" style="width: 112px;">查询</button>
+         <a href="#" id="cleans" class="btn btn-info ml20" style="width: 112px">清除查询</a>
+       </div>
+     </form>
+   </div>
+   <div class="box-body">
+     <table class="table table-bordered table-hover">
+       <thead>
+       <tr>
+         <th>标题</th>
+         <th>作者</th>
+         <th>分类</th>
+         <th>更新时间</th>
+         <th>点击量</th>
+         <th>操作</th>
+
+
+       </tr>
+       </thead>
+       <tbody>
+        {% for one_stories in stories_info %}
+          <tr>
+           <td><a href="#" target="_blank">{{ one_stories.title }}</a></td>
+           <td>{{ one_stories.author.username }}</td>
+           <td>{{ one_stories.tag.name }}</td>
+           <td>{{ one_stories.update_time|date }}</td>
+           <td>{{ one_stories.clicks }}</td>
+           <td>
+             <a href="{% url 'admin:stories_edit' one_stories.id %}" class="btn btn-xs btn-info">编辑</a>
+             <a href="{% url  'users:write_edit' one_stories.id  %}" class="btn btn-xs btn-warning">查看</a>
+             <a href="javascript:void (0);" class="btn btn-xs btn-danger btn-del" data-stories-id="{{ one_stories.id }}">删除</a>
+           </td>
+         </tr>
+        {% endfor %}
+
+
+       </tbody>
+     </table>
+   </div>
+   <div class="box-footer" >
+
+     <nav class="pull-right">
+       <!-- 分页 -->
+       <ul class="pagination">
+         <!-- 上一页 -->
+         {% if stories_info.has_previous %}
+            <li><a href="?page={{ stories_info.previous_page_number }}&{{ other_param }}">上一页</a></li>
+           {% else %}
+           <li class="disabled"><a href="javascript:void(0);">上一页</a></li>
+         {% endif %}
+
+          {% if left_has_more_page %}
+            <li><a href="?page=1&{{ other_param }}">1</a></li>
+            <li><a href="javascript:void(0);">...</a></li>
+          {% endif %}
+          <!-- 左边的页码 -->
+          {% for left_page in left_pages %}
+            <li><a href="?page={{ left_page }}&{{ other_param }}">{{ left_page }}</a></li>
+          {% endfor %}
+
+          <!-- 当前页面 -->
+          {% if current_page_num %}
+            <li class="active"><a href="?page={{ current_page_num }}&{{ other_param }}">{{ current_page_num }}</a></li>
+          {% endif %}
+          <!-- 右边的页面 -->
+          {% for right_page in right_pages %}
+              <li><a href="?page={{ right_page }}&{{ other_param }}">{{ right_page }}</a></li>
+          {% endfor %}
+
+         {% if right_has_more_page %}
+          <li><a href="javascript:void(0);">...</a></li>
+            <li><a href="?page={{ total_page_num }}&{{ other_param }}">{{ total_page_num }}</a></li>
+        {% endif %}
+
+         <!-- 下一页 -->
+          {% if stories_info.has_next %}
+            <li><a href="?page={{ stories_info.next_page_number }}&{{ other_param }}">下一页</a></li>
+            {% else %}
+            <li class="disabled"><a href="javascript:void(0);">下一页</a></li>
+          {% endif %}
+
+       </ul>
+     </nav>
+    <span class="pull-right" style="margin-top: 30px;margin-right: 20px">第{{ current_page_num }}页/总共{{ total_page_num }}页</span>
+   </div>
+ </div>
+{% endblock %}
+
+{% block script %}
+ <script src="{% static 'js/admin/stories/bootstrap-datepicker.min.js' %}"></script>
+ <script src="{% static 'js/admin/stories/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+ <script src="{% static 'js/admin/stories/stories_manage.js' %}"></script>
+  <script src="{% static 'js/base/fsweetalert.js'%}"></script>
+{% endblock %}

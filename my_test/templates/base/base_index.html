@@ -1,0 +1,126 @@
+{% block title %}
+
+{% endblock %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/base/bootstrap.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'css/base/mycss.css' %}"/>
+
+ <link rel="stylesheet" href="http://at.alicdn.com/t/font_684044_un7umbuwwfp.css">
+
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1226167_jmobcxfg8af.css">
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1226167_1k9781kfxc8h.css">
+<link rel="stylesheet" href="http://at.alicdn.com/t/font_1226167_6w3vvdjx93j.css">
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+{#<script src="{% static 'js/story/jquery-3.4.1.slim.min.js' %}" ></script>#}
+<script src="{% static "js/story/bootstrap.js" %}" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/js/base/message.js"></script>
+{% block link %}
+{% endblock %}
+<!-- <script type="text/javascript">
+    $(function () {
+       $('#myTab a').hover(function () {
+         $(this).tab('show');
+       });
+     })
+ </script> -->
+</head>
+<body>
+<header id="top-bar">
+  <nav class="navbar navbar-default" role="navigation"
+       style="background-color: #2593a2;width: 100%;height: 60px;border:#2593a2 solid 1px;line-height: 58px">
+    <div class="container">
+      <div class="collapse navbar-collapse" id="example-navbar-collapse" style="position: relative;line-height: 58px">
+        <ul class="nav navbar-nav">
+          <li class="active" style="width:70px "><a class="text-muted" href="{% url 'stories:index' %}" style="color: white;background-color: #2593a2;padding-left: 0px;font-size: 20px">首页</a></li>
+          <li class="dropdown" style="width:95px "><a href="{% url 'stories:classify' %}" style="font-size: 20px;color: white;background-color: #2593a2;height: 58px;float: left;padding-left: 0px">全部分类</a>
+
+
+          <li style="width:70px "><a href="{% url 'stories:search' %}" style="color: white;background-color: #2593a2;height: 58px;padding-left: 10px;font-size: 20px ">搜索</a>
+          <li style="width:70px "><a href="{% url 'doc:doc' %}" style="color: white;background-color: #2593a2;height: 58px;padding-left: 10px;font-size: 20px; ">下载</a>
+          <li style="width:105px "><a href="{% url 'storyvideo:storyvideo' %}" style="width: 120px;color: white;background-color: #2593a2;height: 58px;padding-left: 10px;font-size: 20px ">视频&音乐</a>
+          <li style="width:125px "> <a href="{% url 'users:shopping' %}" style=" padding-left: 20px; "><i class="iconfont icon-gouwuche" style="color: white;font-size: 20px;position: absolute;">购物车</i></a></li>
+
+
+
+        </ul>
+
+
+{#        <div class="col-md-4" style="right: -735px;height: 58px;">#}
+          {% if user.is_authenticated %}
+          <div class="col-md-4" style="float: right" >
+          <div style="width: 200px;line-height: 58px;float: right">
+
+                {% if user.vip %}
+   <i class="iconfont icon-vip1"
+                 style="color: white;font-size: 35px;position: absolute;"></i>
+                  {% else %}
+
+                  <i class="iconfont icon-xiaorenr"
+                 style="color: white;font-size: 25px;position: absolute;"></i>
+                  {% endif %}
+
+              <li class="dropdown" style="width:150px;list-style-type:none; "><a href="#" class="dropdown-toggle " data-toggle="dropdown" role="button"
+                                                          style="color: white;background-color: #2593a2;height: 40px;
+                                                          list-style-type:none;font-size: 20px;position: absolute;text-decoration:none;right: 20px">{{ user.username }}</a>
+
+{#              <a class="dropdown-toggle " data-toggle="dropdown" role="button">{{ user.username }}</a>#}
+                <ul class="dropdown-menu" style="background-color:#2593a2;border:#2593a2 solid 2px;list-style-type:none;position: absolute;top: 57px">
+
+
+                {% if user.is_staff %}
+                  <li><a href="{% url 'admin:index' %}" style="color: white;background-color:#2593a2">后台管理</a></li>
+                {% endif %}
+                 {% if user.write%}
+                  <li><a href="{% url 'users:write' %}" style="color: white;background-color:#2593a2">作者界面</a></li>
+                {% endif %}
+                 <li><a href="{% url 'users:detail' %}" style="color: white;background-color:#2593a2 ">个人中心</a></li>
+                  <li><a href="{% url 'users:logout' %}" style="color: white;background-color:#2593a2 ">退出登录</a></li>
+{#                <li><a href="{% url 'users:logout' %}">退出登录</a></li>#}
+              </ul>
+            </div>
+          </div>
+          {% else %}
+            <div class="col-md-4" style="right: -430px;height: 58px;line-height: 58px">
+            <i class="iconfont icon-xiaorenr"
+               style="color: white;font-size: 25px;float: none;position: absolute;right: 370px"></i>
+            <a class="text-muted btn btn-info navbar-btn " href="{% url 'users:login' %}">立即登录</a>
+            <a class="text-muted btn btn-default navbar-btn" href="{% url 'users:register' %}">注册</a></div>
+          {% endif %}
+
+      </div>
+    </div>
+  </nav>
+
+
+</header>
+
+{% block main %}
+  {% block left %}
+  {% endblock %}
+  {% block right %}
+  {% endblock %}
+{% endblock %}
+
+
+
+<footer id="myfooter" style="top: 10px;position: relative">
+  <div class="container clr-mgn text-center">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <br>
+      <a class="a1" href="">关于我们</a>
+      <a class="a2" href="">加入我们</a>
+      <a class="a2" href="">联系我们</a>
+      <a class="a2" href="">友情链接</a><br><br>
+    </div>
+
+    <div class="col-md-2"></div>
+  </div>
+  <div class="container"><br></div>
+</footer>
+{% block script %}
+{% endblock %}
+
+</body>
+</html>

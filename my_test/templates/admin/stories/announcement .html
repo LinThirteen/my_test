@@ -1,0 +1,81 @@
+{% extends 'admin/base/base.html' %}
+{% block title %}
+  公告管理页
+{% endblock %}
+
+{% block content_header %}
+  公告管理
+{% endblock %}
+
+{% block header_option_desc %}
+
+{% endblock %}
+
+{% block content %}
+  <style>
+
+    ul.banner-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    ul.banner-list li.banner-item {
+      margin-top: 20px;
+    }
+
+  </style>
+
+  <ul class="banner-list">
+
+        {% for  announcment in  announcment_list %}
+
+    <li class="box banner-item box-primary" data-announcment-id="{{ announcment.id }}">
+      <div class="box-header">
+        <span>当前优先级为：<span class="priority-number">{{  announcment.priority }}</span></span>
+      </div>
+      <div class="box-body">
+        <div class="input-group input-group-lg" style="width: 90%;margin: auto">
+          <span class="input-group-addon" id="sizing-addon1"><i class="fa fa-volume-down"></i></span>
+          <input type="text" class="form-control" id="contents" placeholder="内容不得长于20个字" aria-describedby="sizing-addon1" value="{{ announcment.content }}">
+        </div>
+
+        <div class="row" style="width: 92.5%;margin: auto ;margin-top: 25px">
+          <div class="col-lg-6">
+            <div class="input-group">
+      <span class="input-group-addon">
+        选择优先级(第一级最高)：
+      </span>
+              <input type="text" class="form-control" aria-label="..." placeholder="" value="{{ announcment.get_priority_display }}" disabled>
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+
+
+          <div class="col-lg-6">
+            <div class="input-group">
+      <span class="input-group-addon">
+        更新时间
+      </span>
+              <input type="text" class="form-control" placeholder="{{ announcment.create_time }}" aria-label="..." disabled>
+            </div><!-- /input-group -->
+          </div><!-- /.col-lg-6 -->
+        </div><!-- /.row -->
+
+
+      </div>
+      <div class="box-footer">
+        <button class="btn btn-primary pull-right update-btn" data-priority="{{ announcment.priority }}">更新
+        </button>
+      </div>
+    </li>
+
+        {% endfor %}
+
+  </ul>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'js/admin/stories/announcement_manage.js' %}"></script>
+  <script src="{% static 'js/base/fsweetalert.js'%}"></script>
+{% endblock %}

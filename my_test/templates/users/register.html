@@ -1,0 +1,79 @@
+{% extends 'base/base.html' %}
+{% block title %}
+<title>注册页面</title>
+{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="../../static/css/authPro/auth.css">
+{% endblock %}
+{% block head %}
+       <nav class="navbar navbar-expand-lg header-area">
+    <a class="navbar-brand" href="{% url 'users:start' %}"> < 返回 </a>
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      <ul class="navbar-nav ml-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">登录</a></li>
+      </ul>
+    </div>
+</nav>
+{% endblock %}
+{% block main %}
+  <div id="home" >
+  <div id="items" >
+    <div class="cont-area" >
+      <div class="container banner-area" >
+        <ul class="slides clearfix">
+          <li >
+            <div class="reginster-content" style="height: 400px; width: 350px; background-color:#32A7B8;margin:auto;">
+            <form action="" method="post" class="form-contains" >
+               <div class="form-item" style="margin-top: -5px;">
+{#                 {% csrf_token %}#}
+                 <input type="tel" placeholder="请输入用户名" id="users" name="telephone" class="form-control" autocomplete="off" style="height: 40px;opacity: 1" autofocus>
+                </div>
+              <div class="form-item" style=" margin-top: 15px;">
+                <input type="password" placeholder="请输入长度为6-20位密码" name="password" id = password class="form-control" style="height: 40px;opacity: 1">
+                </div>
+               <div class="form-item" style=" margin-top: 15px;">
+                  <input type="password" placeholder="请输入确认密码" name="password_repeat" id="password_repeat" class="form-control" style="height: 40px;opacity: 1">
+                </div>
+                <div class="form-item" style=" margin-top: 15px;">
+                  <input type="tel" placeholder="请输入手机号" name="telephone" id="mobile" autocomplete="off" class="form-control"  style="height: 40px;opacity: 1">
+                </div>
+               <div class="form-item" style=" margin-top: 15px;">
+                <input type="text" placeholder="请输入图形验证码" id="input_captcha" name="captcha_graph" class="form-captcha" style="margin-left: -5px;padding-left: 0.7em;width:225px;height: 40px; border-radius: 5px;border: 1px solid #ddd;">
+                <a href="javascript:void(0);" class="captcha-graph-img" style="float: right;width: 120px;height: 40px;border: 1px solid #3fdaf3;border-radius: 5px;text-align: center;opacity: 0.8">
+                  <img src="" alt="验证码" title="点击刷新" style="width: 100%;border-radius: 5px;height: 40px;">
+                </a>
+              </div>
+      <div class="form-item" style=" margin-top: 15px;z-index: 2">
+        <input type="text" placeholder="请输入短信验证码" name="sms_code" class="form-captcha" autocomplete="off" style="margin-left: -5px;width:225px;height: 40px;border-radius: 5px;padding-left: 0.7em;border: 1px solid #ddd;">
+        <a href="javascript:void(0);" id="sms-captcha-captcha" title="发送验证码" style="text-decoration:none;float: right;width: 120px;height: 40px;border: 1px solid #3fdaf3;border-radius: 5px;text-align: center;line-height: 40px;" >获取短信验证码</a>
+      </div>
+      <div class="form-item" style="margin-top: 15px;background-color: #32A7B8;">
+        <input type="submit" value="立即注册" class="register-btn" style="width: 100%;height: 40px;font-size: 18px;color: white;background-color: #32A7B8; border-radius: 5px; border: 1px solid #ddd;margin-top: -5px">
+      </div>
+            </form>
+            </div>
+            <br><br>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="banner-btm-img" ><img src="{% static 'images/2.png' %}" /></div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block image %}
+  <div class="about-area text-center" style="height:0px;">
+  <div class="section-spacing about-top-area">
+    <div class="container" >
+      <div class="top-float-img" >
+        <div class="image-container" ><img src="{% static 'images/4.png'%}"  /></div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block script %}
+   <script src="{% static 'js/login_register/register.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,214 @@
+{% extends 'base/base_index.html' %}
+{% block title %}
+<title>首页</title>
+{% endblock %}
+{% block link %}
+{% endblock  %}
+{% block main %}
+   <main >
+        <div id="main-t1" class="container" style="position: relative;top: 7px;">
+            <div class="col-md-9">
+                <div class="carousel">
+                    <div id="carousel233" class="carousel slide" data-interval="3000" data-ride="carousel">
+
+
+                            <div  class="carousel-inner" role="listbox" id="carousel-inner">
+
+
+                            </div>
+                    </div>
+                    <a class="left carousel-control" href="#carousel233" role="button" data-slide="prev">
+                        <span  aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="right carousel-control" href="#carousel233" role="button" data-slide="next">
+                        <span aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+                <div class="carousel car-mgn" id="carousels" style="background-color: #fff;">
+                    <h3 class="h-title">&nbsp&nbsp&nbsp图书分类</h3>
+                    <ul class="nav nav-pills nav-justified" role="tablist" id="myTab"> </ul>
+
+
+
+
+
+
+
+                    <div class="tab-content" id="tab_first">
+                    </div>
+                </div>
+
+                <div class="carousel car-mgn">
+
+                <div style="background-color: white">
+                    <h3 class="h-title">&nbsp&nbsp&nbsp为您推荐</h3>
+
+                    <div class="tab-content" id="tab">
+
+                            <div class="tab-pane fade in active" role="tabpanel" id="tab001">
+                                    {% for stories in story_queryset %}
+                                      {% if stories.price %}
+                                    <div class="thumbnail col-md-3 col-xs-6">
+                                        <a href="{% url 'stories:buy_index' stories.id %}" target="_blank"><img src="{{stories.image_url}}" style="width: 100%;height: 245px"/></a>
+                                        <h5 class="h-title">{{stories.title}}</h5>
+                                        <p class="price">
+                                          <div style="float: left">
+                                            <span style="margin-left: 5px;">价格:</span>
+
+                                            <span style="color: red;"><strong>{{stories.price}}元</strong></span>
+                                      {% else %}
+                                          <div class="thumbnail col-md-3 col-xs-6">
+                                        <a href="{% url 'stories:read' stories.id %}"><img src="{{stories.image_url}}" style="width: 100%;height: 245px"/></a>
+                                        <h5 class="h-title">{{stories.title}}</h5>
+                                        <p class="price">
+                                          <div style="float: left">
+                                            <span style="margin-left: 5px;">价格:</span>
+                                           <span style="color: red;"><strong>免费</strong></span>
+                                      {% endif %}
+                                    </div>
+                                        <div style="float: right">
+                                            <span style="font-size: 13px;">点击量:</span>
+                                          <del class="text-muted" style="text-decoration:none;font-size: 13px;margin-right: 5px;">{{stories.clicks}}</del></div>
+                                        </p>
+                                    </div>
+                              {% endfor %}
+                            </div>
+                            <br>
+                        </div>
+
+                </div>
+
+
+                  <div>
+                        <nav aria-label="Page navigation">
+                            <ul class="pager" >
+
+                            </ul>
+                            <div class="tab004" style="background-color: white;height: 50px;margin-top: -20px;">
+                              <li style="background-color:white;border-radius:25px;line-height: 30px;list-style-type:none;border: 1px solid #2593a2;width: 150px;margin-left: 350px" class="tab003">
+                              <a href="#tab02" class="tab002"  style="width: 30px;padding-left:30px">滚动加载更多</a></li></div>
+                        </nav>
+                </div>
+                </div>
+
+            </div>
+
+  {% block right %}
+
+            <div class="col-md-3">
+                <div class="row" style="background-color: #fff;">
+                    <h3 class="text-center">公告栏</h3>
+                    <ul class="mgnlt">
+                      {% for i in announcement %}
+                        {% if i.content %}
+                        <li><span>{{ i.content }}</span></li>
+                        {% endif %}
+                     {% endfor %}
+
+                    </ul>
+                </div>
+                <div class="row clr-mgn">
+                    <h3 class="text-center">今日推荐</h3>
+                    <div class="carousel mgnlt">
+                        <div id="carousel2333" class="carousel slide" data-interval="3000" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel2333" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel2333" data-slide-to="1"></li>
+                                    <li data-target="#carousel2333" data-slide-to="2"></li>
+                                </ol>
+                                <div  class="carousel-inner" role="listbox" style="width: 100%">
+                                    <div class="item active">
+                                      {% if recommend_frist.price %}
+
+                                      <a href="{% url 'stories:buy_index' recommend_frist.id %}" target="_blank">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_frist.id %}">
+                                        <img src="{{ recommend_frist.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                          {% if recommend_secoend.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_secoend.id %}" target="_blank">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                        <a href=" {% url 'stories:read' recommend_secoend.id %}">
+                                        <img src="{{ recommend_secoend.image_url }}" style="width: 100%;height: 340px" alt=""></a>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <div class="item">
+                                        {% if recommend_third.price %}
+                                      <a href="{% url 'stories:buy_index' recommend_third.id %}" target="_blank">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                      {% else %}
+                                     <a href=" {% url 'stories:read' recommend_third.id %}">
+                                        <img src="{{ recommend_third.image_url }}"  style="width: 100%;height: 340px" alt=""></a>
+                                          {% endif %}
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                    <br>
+                </div>
+                <div class="row clr-mgn">
+                    <h3 class="text-center">排行榜</h3>
+                    <ul class="list-group" id="more">
+                      {% for rank in ranking %}
+                        {% if rank.price %}
+                   <li class="list-group-item"><a class="a-noline" href="/buy_index/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+                        {% else %}
+                    <li class="list-group-item"><a class="a-noline" href="/read/{{ rank.id }}"><span style="font-weight: bold">{{ rank.title }}</span><span style="float: right;font-size: 12px">点击量：{{ rank.clicks }}</span></a></li>
+                        {% endif %}
+                      {% endfor %}
+
+
+                    </ul>
+                </div>
+                <div class="row clr-mgn">
+                    <h3 class="text-center">大神作家</h3>
+                    <ul class="list-group" id="more">
+                      {% for author_detail in author_write_list %}
+                            <li class="list-group-item">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <a href="#">
+                                        <img class="media-object" src="{{ author_detail.author_image }}" alt="..." style="width: 64px;height: 64px">
+                                        </a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">{{ author_detail.author_name }}</h4>
+                                        <h6><span>简介：</span>{{ author_detail.author_introduce }}</h6>
+                                    </div>
+                                </div>
+                            </li>
+                      {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+      {% endblock %}
+        </div>
+    </main>
+{% endblock %}
+{% block script %}
+<script src="{% static 'js/story/index.js' %}"></script>
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

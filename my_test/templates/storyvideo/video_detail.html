@@ -1,0 +1,41 @@
+{% extends 'base/base_index.html' %}
+{% load static %}
+{% block title %}
+<title>视频观看页面</title>
+{% endblock %}
+{% block link %}
+{#<link rel="stylesheet" href="{% static 'css/base/Search-css.css' %} }">#}
+
+{% endblock  %}
+{% block main %}
+   <main>
+
+        <div class="container" style="background-color:#32a7b8;border: 1px solid #32a7b8;">
+
+
+
+            <div class="course-video" id="course-video" style="background-color:#32a7b8;" >
+
+
+                  <span class="course-data" style="display: none;" data-video-url="{{ video.video_url }}"
+              data-cover-url="{{ video.cover_url }}">
+        </span>
+
+
+
+                </div>
+
+
+            </div>
+
+    </main>
+{% endblock %}
+{% block script %}
+   <script src="https://cdn.bdstatic.com/jwplayer/latest/cyberplayer.js"></script>
+{#  <script src="https://cdn.bdstatic.com/jwplayer/3.4.0/videojs/video.min.js"></script>#}
+{#  <script src="https://cdn.bdstatic.com/jwplayer/3.4.0/videojs/videojs-contrib-hls.min.js"></script>#}
+{#  <script src="https://cdn.bdstatic.com/jwplayer/3.4.0/videojs/videojs-contrib-quality-levels.min.js"></script>#}
+{#  <script src="https://cdn.bdstatic.com/jwplayer/3.4.0/videojs/video.min.js"></script>#}
+   <script src="{% static 'js/story_video/video_detail.js' %}"></script>
+  <script src="{% static 'js/story_video/commons.js' %}"></script>
+{% endblock %}
